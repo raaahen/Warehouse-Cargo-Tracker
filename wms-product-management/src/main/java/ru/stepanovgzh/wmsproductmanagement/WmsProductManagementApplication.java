@@ -1,13 +1,13 @@
-package ru.stepanovgzh.wms;
+package ru.stepanovgzh.wmsproductmanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WmsApplication {
+public class WmsProductManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WmsApplication.class, args);
+		SpringApplication.run(WmsProductManagementApplication.class, args);
 	}
 
 }

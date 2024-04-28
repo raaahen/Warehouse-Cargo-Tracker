@@ -1,10 +1,10 @@
-package ru.stepanovgzh.wmsproductmanagement;
+package ru.stepanovgzh.wms.productmanagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WmsProductManagementApplicationTests {
+class ProductManagementApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -21,15 +21,15 @@
   - Параметры: `ProductId`.
 
 **События:**
-- **ProductCreated**:
+- **ProductAdded**:
   - Событие, генерируемое при создании нового товара.
   - Параметры: `ProductId`, `UPC`, `Name`, `Description`.
   
-- **ProductUpdated**:
+- **ProductInfoUpdated**:
   - Событие, генерируемое при обновлении данных товара.
   - Параметры: `ProductId`, `UPC`, `Name`, `Description`.
   
-- **ProductDeleted**:
+- **ProductRemoved**:
   - Событие, генерируемое при удалении товара.
   - Параметры: `ProductId`.
 

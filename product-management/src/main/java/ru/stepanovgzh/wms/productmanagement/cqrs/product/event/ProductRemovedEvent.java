@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.events.product;
+package ru.stepanovgzh.wms.productmanagement.cqrs.product.event;
 
 import java.util.UUID;
 

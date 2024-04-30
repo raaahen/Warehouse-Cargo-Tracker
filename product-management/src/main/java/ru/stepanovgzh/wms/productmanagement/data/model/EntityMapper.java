@@ -1,11 +1,11 @@
-package ru.stepanovgzh.wms.productmanagement.domain.model;
+package ru.stepanovgzh.wms.productmanagement.data.model;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import ru.stepanovgzh.wms.productmanagement.domain.events.product.ProductAddedEvent;
-import ru.stepanovgzh.wms.productmanagement.domain.events.product.ProductInfoUpdatedEvent;
-import ru.stepanovgzh.wms.productmanagement.domain.view.ProductView;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.event.ProductAddedEvent;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.event.ProductInfoUpdatedEvent;
+import ru.stepanovgzh.wms.productmanagement.data.view.ProductView;
 
 @Mapper(componentModel = "spring")
 public interface EntityMapper 

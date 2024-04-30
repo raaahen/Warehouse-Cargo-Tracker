@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.model;
+package ru.stepanovgzh.wms.productmanagement.data.model;
 
 import java.util.UUID;
 
@@ -7,9 +7,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Barcode;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Description;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Name;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Barcode;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Description;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Name;
 
 @Getter
 @Setter

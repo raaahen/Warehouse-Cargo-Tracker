@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.aggregates;
+package ru.stepanovgzh.wms.productmanagement.aggregates;
 
 import java.util.UUID;
 
@@ -8,15 +8,15 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import lombok.NoArgsConstructor;
-import ru.stepanovgzh.wms.productmanagement.domain.commands.product.AddProductCommand;
-import ru.stepanovgzh.wms.productmanagement.domain.commands.product.RemoveProductCommand;
-import ru.stepanovgzh.wms.productmanagement.domain.commands.product.UpdateProductInfoCommand;
-import ru.stepanovgzh.wms.productmanagement.domain.events.product.ProductAddedEvent;
-import ru.stepanovgzh.wms.productmanagement.domain.events.product.ProductInfoUpdatedEvent;
-import ru.stepanovgzh.wms.productmanagement.domain.events.product.ProductRemovedEvent;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Barcode;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Description;
-import ru.stepanovgzh.wms.productmanagement.domain.model.types.Name;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.commands.AddProductCommand;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.commands.RemoveProductCommand;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.commands.UpdateProductInfoCommand;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.event.ProductAddedEvent;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.event.ProductInfoUpdatedEvent;
+import ru.stepanovgzh.wms.productmanagement.cqrs.product.event.ProductRemovedEvent;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Barcode;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Description;
+import ru.stepanovgzh.wms.productmanagement.data.model.types.Name;
 
 @Aggregate
 @NoArgsConstructor

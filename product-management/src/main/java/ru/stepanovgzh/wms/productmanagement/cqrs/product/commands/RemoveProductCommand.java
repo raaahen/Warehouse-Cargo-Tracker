@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.commands.product;
+package ru.stepanovgzh.wms.productmanagement.cqrs.product.commands;
 
 import java.util.UUID;
 

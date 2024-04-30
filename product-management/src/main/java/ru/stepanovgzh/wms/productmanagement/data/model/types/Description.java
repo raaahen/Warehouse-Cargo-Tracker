@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.model.types;
+package ru.stepanovgzh.wms.productmanagement.data.model.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Name 
+public class Description 
 {
-    private String name;
+    private String description;
 }

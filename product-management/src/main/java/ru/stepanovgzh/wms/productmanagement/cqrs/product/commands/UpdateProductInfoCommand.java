@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wms.productmanagement.domain.commands.product;
+package ru.stepanovgzh.wms.productmanagement.cqrs.product.commands;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import lombok.Value;
 
 @Value
-public class AddProductCommand 
+public class UpdateProductInfoCommand
 {
     @AggregateIdentifier
     private UUID productId;

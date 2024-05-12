@@ -13,7 +13,7 @@ import ru.stepanovgzh.wma.storingms.cqrs.command.ChangeCargoStatusCommand;
 import ru.stepanovgzh.wma.storingms.cqrs.command.CreateCargoCommand;
 import ru.stepanovgzh.wma.storingms.cqrs.command.DeleteCargoCommand;
 import ru.stepanovgzh.wma.storingms.cqrs.command.MoveCargoCommand;
-import ru.stepanovgzh.wma.storingms.cqrs.command.UpdatecCargoCommand;
+import ru.stepanovgzh.wma.storingms.cqrs.command.UpdateCargoCommand;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoCreatedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoDeletedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoMovedEvent;
@@ -73,7 +73,7 @@ public class CargoAggregate
     }
 
     @CommandHandler
-    public void handleUpdateCargo(UpdatecCargoCommand updatecCargoCommand)
+    public void handleUpdateCargo(UpdateCargoCommand updatecCargoCommand)
     {
         AggregateLifecycle.apply(new CargoUpdatedEvent(
             updatecCargoCommand.getId(),

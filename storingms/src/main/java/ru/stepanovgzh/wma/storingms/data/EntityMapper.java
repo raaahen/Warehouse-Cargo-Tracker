@@ -7,7 +7,7 @@ import ru.stepanovgzh.wma.storingms.cqrs.event.CargoCreatedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoUpdatedEvent;
 import ru.stepanovgzh.wma.storingms.data.model.Cargo;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EntityMapper 
 {
     Cargo map(CargoCreatedEvent cargoCreatedEvent);

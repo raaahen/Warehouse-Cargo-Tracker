@@ -91,8 +91,8 @@ public class CargoAggregate
     {
         AggregateLifecycle.apply(new CargoMovedEvent(
             moveCargoCommand.getId(),
-            new Location(moveCargoCommand.getZoneName(), 
-                moveCargoCommand.getCellName())));
+            new Location(moveCargoCommand.getZone(), 
+                moveCargoCommand.getCell())));
     }
 
     @EventSourcingHandler

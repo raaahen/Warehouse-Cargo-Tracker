@@ -54,9 +54,9 @@ public class CargoController
     public CompletableFuture<UUID> moveCargo(@RequestBody MoveCargoInput moveCargoInput)
     {
         return commandGateway.send(new MoveCargoCommand(
-            UUID.randomUUID(),
-            moveCargoInput.getZoneName(),
-            moveCargoInput.getCellName()));
+            moveCargoInput.getId(),
+            moveCargoInput.getZone(),
+            moveCargoInput.getCell()));
     }
 
     @PostMapping("/changestatus")
@@ -64,7 +64,7 @@ public class CargoController
         @RequestBody ChangeCargoStatusInput changeCargoStatusInput)
     {
         return commandGateway.send(new ChangeCargoStatusCommand(
-            UUID.randomUUID(),
+            changeCargoStatusInput.getId(),
             changeCargoStatusInput.getStatus()));
     }
 
@@ -72,7 +72,7 @@ public class CargoController
     public CompletableFuture<UUID> updateCargo(@RequestBody UpdateCargoInput updateCargoInput)
     {
         return commandGateway.send(new UpdateCargoCommand(
-            UUID.randomUUID(),
+            updateCargoInput.getId(),
             updateCargoInput.getQty()));
     }
 

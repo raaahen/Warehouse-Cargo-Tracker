@@ -11,6 +11,6 @@ public class MoveCargoInput
 {
     @TargetAggregateIdentifier
     UUID id;
-    String zoneName;
-    String cellName;
+    String zone;
+    String cell;
 }

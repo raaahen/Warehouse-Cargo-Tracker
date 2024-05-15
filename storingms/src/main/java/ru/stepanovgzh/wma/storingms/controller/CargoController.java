@@ -24,12 +24,13 @@ import java.util.concurrent.CompletableFuture;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("api/v1/cargo")
+@RequestMapping("/cargostoring")
 @RequiredArgsConstructor
 public class CargoController 
 {
@@ -75,14 +76,14 @@ public class CargoController
             updateCargoInput.getQty()));
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping
     public CompletableFuture<UUID> deleteCargo(@RequestBody DeleteCargoInput deleteCargoInput)
     {
         return commandGateway.send(new DeleteCargoCommand(
             deleteCargoInput.getId()));
     }
 
-    @GetMapping()
+    @GetMapping
     public CompletableFuture<List<CargoView>> cargoList()
     {
         return queryGateway.query(new AllCargoQuery(),

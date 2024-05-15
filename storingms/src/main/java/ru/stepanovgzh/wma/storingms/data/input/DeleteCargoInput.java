@@ -2,13 +2,16 @@ package ru.stepanovgzh.wma.storingms.data.input;
 
 import java.util.UUID;
 
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Value;
-
-@Value
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class DeleteCargoInput 
 {
-    @TargetAggregateIdentifier
     UUID id;
 }

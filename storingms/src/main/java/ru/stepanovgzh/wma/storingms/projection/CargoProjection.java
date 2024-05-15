@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoCreatedEvent;
+import ru.stepanovgzh.wma.storingms.cqrs.event.CargoDeletedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoMovedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoStatusChangedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoUpdatedEvent;
@@ -60,6 +61,15 @@ public class CargoProjection
                     "Cargo not found, id = " + cargoUpdatedEvent.getId()));
         Cargo cargoFromEvent = cargoMapper.map(cargoUpdatedEvent);
         cargoRepository.save(cargoMapper.merge(cargoFromEvent, cargoFromDb));
+    }
+
+    @EventHandler
+    public void on(CargoDeletedEvent cargoDeletedEvent) 
+    {
+        Cargo cargo = cargoRepository.findById(cargoDeletedEvent.getId())
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "Cargo not found, id = " + cargoDeletedEvent.getId()));
+        cargoRepository.delete(cargo);
     }
 
     @QueryHandler

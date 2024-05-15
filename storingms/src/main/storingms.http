@@ -26,7 +26,7 @@ DELETE http://localhost:8080/cargostoring
 Content-Type: application/json
 
 {
-    "id": "a1f3bbaa-750b-4cd7-aa9d-efdbc89ba1d5"
+    "id": "6947b88d-6b91-441e-a59c-45781666dbba"
 }
 
 ###

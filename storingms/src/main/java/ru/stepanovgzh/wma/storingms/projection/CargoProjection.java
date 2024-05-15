@@ -14,22 +14,22 @@ import ru.stepanovgzh.wma.storingms.cqrs.event.CargoMovedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoStatusChangedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.event.CargoUpdatedEvent;
 import ru.stepanovgzh.wma.storingms.cqrs.query.AllCargoQuery;
-import ru.stepanovgzh.wma.storingms.data.EntityMapper;
+import ru.stepanovgzh.wma.storingms.data.mapper.CargoMapper;
 import ru.stepanovgzh.wma.storingms.data.model.Cargo;
 import ru.stepanovgzh.wma.storingms.data.repository.CargoRepository;
 import ru.stepanovgzh.wma.storingms.data.view.CargoView;
 
 @Service
 @RequiredArgsConstructor
-public class СargoProjection 
+public class CargoProjection 
 {
-    private final EntityMapper entityMapper;
+    private final CargoMapper cargoMapper;
     private final CargoRepository cargoRepository;
 
     @EventHandler
     public void on(CargoCreatedEvent cargoCreatedEvent)
     {
-        cargoRepository.save(entityMapper.map(cargoCreatedEvent));
+        cargoRepository.save(cargoMapper.map(cargoCreatedEvent));
     }
 
     @EventHandler
@@ -58,25 +58,15 @@ public class СargoProjection
         Cargo cargoFromDb = cargoRepository.findById(cargoUpdatedEvent.getId())
             .orElseThrow(() -> new EntityNotFoundException(
                     "Cargo not found, id = " + cargoUpdatedEvent.getId()));
-        Cargo cargoFromEvent = entityMapper.map(cargoUpdatedEvent);
-        cargoRepository.save(entityMapper.merge(cargoFromEvent, cargoFromDb));
+        Cargo cargoFromEvent = cargoMapper.map(cargoUpdatedEvent);
+        cargoRepository.save(cargoMapper.merge(cargoFromEvent, cargoFromDb));
     }
 
     @QueryHandler
     public List<CargoView> handleCargoList(AllCargoQuery allCargoQuery)
     {
         return cargoRepository.findAll().stream()
-            .map(cargo -> new CargoView(
-                cargo.getId(),
-                cargo.getSku().getBarcode(),
-                cargo.getSku().getName(),
-                cargo.getSku().getDescription(),
-                cargo.getPack().getType(),
-                cargo.getPack().getDescription(),
-                cargo.getQty(),
-                cargo.getLocation().getZone(),
-                cargo.getLocation().getCell(),
-                cargo.getStatus()))
+            .map(cargoMapper::map)
             .collect(Collectors.toList());
     }
 }

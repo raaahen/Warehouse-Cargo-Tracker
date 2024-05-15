@@ -16,7 +16,7 @@ public class CargoView
     PackType packType;
     String packDescription;
     int qtyOfSku;
-    String zoneName;
-    String cellName;
+    String zone;
+    String cell;
     CargoStatus cargoStatus;
 }

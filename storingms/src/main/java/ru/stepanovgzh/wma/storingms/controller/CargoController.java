@@ -14,7 +14,6 @@ import ru.stepanovgzh.wma.storingms.data.input.CreateCargoInput;
 import ru.stepanovgzh.wma.storingms.data.input.MoveCargoInput;
 import ru.stepanovgzh.wma.storingms.data.input.ChangeCargoStatusInput;
 import ru.stepanovgzh.wma.storingms.data.input.UpdateCargoInput;
-import ru.stepanovgzh.wma.storingms.data.value.PackType;
 import ru.stepanovgzh.wma.storingms.data.view.CargoView;
 import ru.stepanovgzh.wma.storingms.data.input.DeleteCargoInput;
 

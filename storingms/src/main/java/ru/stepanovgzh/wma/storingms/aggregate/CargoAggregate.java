@@ -24,6 +24,8 @@ import ru.stepanovgzh.wma.storingms.data.value.Location;
 import ru.stepanovgzh.wma.storingms.data.value.Pack;
 import ru.stepanovgzh.wma.storingms.data.value.Sku;
 
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
+
 @Aggregate
 @NoArgsConstructor
 public class CargoAggregate 
@@ -39,7 +41,7 @@ public class CargoAggregate
     @CommandHandler
     public CargoAggregate(CreateCargoCommand createCargoCommand)
     {
-        AggregateLifecycle.apply(new CargoCreatedEvent(
+        apply(new CargoCreatedEvent(
             createCargoCommand.getId(),
             new Sku(createCargoCommand.getSkuBarcode(),
                 createCargoCommand.getSkuName(),
@@ -59,9 +61,9 @@ public class CargoAggregate
     }
 
     @CommandHandler
-    public void handleChangeCargoStatus(ChangeCargoStatusCommand changeCargoStatusCommand)
+    public void handle(ChangeCargoStatusCommand changeCargoStatusCommand)
     {
-        AggregateLifecycle.apply(new CargoStatusChangedEvent(
+        apply(new CargoStatusChangedEvent(
             changeCargoStatusCommand.getId(),
             changeCargoStatusCommand.getStatus()));
     }
@@ -73,9 +75,9 @@ public class CargoAggregate
     }
 
     @CommandHandler
-    public void handleUpdateCargo(UpdateCargoCommand updatecCargoCommand)
+    public void handle(UpdateCargoCommand updatecCargoCommand)
     {
-        AggregateLifecycle.apply(new CargoUpdatedEvent(
+        apply(new CargoUpdatedEvent(
             updatecCargoCommand.getId(),
             updatecCargoCommand.getQty()));
     }
@@ -87,9 +89,9 @@ public class CargoAggregate
     }
 
     @CommandHandler
-    public void handleMoveCargo(MoveCargoCommand moveCargoCommand)
+    public void handle(MoveCargoCommand moveCargoCommand)
     {
-        AggregateLifecycle.apply(new CargoMovedEvent(
+        apply(new CargoMovedEvent(
             moveCargoCommand.getId(),
             new Location(moveCargoCommand.getZone(), 
                 moveCargoCommand.getCell())));
@@ -102,9 +104,9 @@ public class CargoAggregate
     }
 
     @CommandHandler
-    public void handleDeleteCargo(DeleteCargoCommand deleteCargoCommand)
+    public void handle(DeleteCargoCommand deleteCargoCommand)
     {
-        AggregateLifecycle.apply(new CargoDeletedEvent(
+        apply(new CargoDeletedEvent(
             deleteCargoCommand.getId()));
     }
 

@@ -11,7 +11,7 @@ import ru.stepanovgzh.wma.storingms.data.value.PackType;
 public class CreateCargoCommand 
 {
     @TargetAggregateIdentifier
-    private UUID id;
+    UUID id;
     String skuBarcode;
     String skuName;
     String skuDescription;

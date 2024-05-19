@@ -8,9 +8,9 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import lombok.NoArgsConstructor;
-import ru.stepanovgzh.wma.receivingms.data.model.ReceivingOrderDetail;
-import ru.stepanovgzh.wma.receivingms.data.model.Supplier;
-import ru.stepanovgzh.wma.receivingms.data.model.Transporter;
+import ru.stepanovgzh.wma.receivingms.data.entity.ReceivingOrderDetail;
+import ru.stepanovgzh.wma.receivingms.data.entity.Supplier;
+import ru.stepanovgzh.wma.receivingms.data.entity.Transporter;
 import ru.stepanovgzh.wma.receivingms.data.value.ReceivingStatus;
 
 @Aggregate

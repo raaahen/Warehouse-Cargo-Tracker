@@ -1,5 +1,6 @@
 package ru.stepanovgzh.wma.receivingms.cqrs.command;
 
-public class DeleteReceivingOrderCommand {
+public class DeleteReceivingOrderCommand 
+{
     
 }

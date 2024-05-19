@@ -1,5 +1,6 @@
 package ru.stepanovgzh.wma.receivingms.cqrs.command;
 
-public class ReceiveCargoCommand {
+public class ReceiveCargoCommand 
+{
     
 }

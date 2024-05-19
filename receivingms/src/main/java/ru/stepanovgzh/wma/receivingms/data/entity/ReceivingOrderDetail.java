@@ -32,5 +32,7 @@ public class ReceivingOrderDetail
     @Embedded
     Pack pack;
 
+    UUID receivedCargoId;
+
     SkuReceivingStatus skuReceivingStatus;
 }

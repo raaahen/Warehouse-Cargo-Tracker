@@ -18,4 +18,5 @@ public class AddDetailToReceivingOrderCommand
     String skuDecription;
     int qty;
     PackType packType;
+    String packDescription;
 }

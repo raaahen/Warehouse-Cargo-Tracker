@@ -7,9 +7,10 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.Value;
 
 @Value
-public class RemoveDetailFromReceivingOrderEvent 
+public class CargoReceivedEvent 
 {
     @TargetAggregateIdentifier
     UUID receivingOrderId;
     UUID detailId;
+    UUID receivedCargoId;
 }

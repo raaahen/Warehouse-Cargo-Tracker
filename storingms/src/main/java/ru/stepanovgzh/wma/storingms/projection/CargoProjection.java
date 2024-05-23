@@ -29,7 +29,7 @@ public class CargoProjection
 
     @EventHandler
     public void on(CargoCreatedEvent cargoCreatedEvent)
-    {
+    { 
         cargoRepository.save(cargoMapper.map(cargoCreatedEvent));
     }
 

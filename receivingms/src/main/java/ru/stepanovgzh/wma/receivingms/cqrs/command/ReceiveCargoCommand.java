@@ -18,4 +18,5 @@ public class ReceiveCargoCommand
     String skuDecription;
     int qty;
     PackType packType;
+    String packDescription;
 }

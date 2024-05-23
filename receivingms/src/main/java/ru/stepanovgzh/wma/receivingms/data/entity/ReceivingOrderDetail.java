@@ -8,12 +8,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.stepanovgzh.wma.receivingms.data.value.Pack;
 import ru.stepanovgzh.wma.receivingms.data.value.Sku;
 import ru.stepanovgzh.wma.receivingms.data.value.SkuReceivingStatus;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class ReceivingOrderDetail 
 {
@@ -35,4 +39,13 @@ public class ReceivingOrderDetail
     UUID receivedCargoId;
 
     SkuReceivingStatus skuReceivingStatus;
+
+    public ReceivingOrderDetail(UUID id, UUID receivingOrderId, Sku sku, int qty, Pack pack)
+    {
+        this.id = id;
+        this.receivingOrderId = receivingOrderId;
+        this.sku = sku;
+        this.qty = qty;
+        this.pack = pack;
+    }
 }

@@ -10,7 +10,7 @@ import ru.stepanovgzh.wma.receivingms.data.entity.Supplier;
 import ru.stepanovgzh.wma.receivingms.data.entity.Transporter;
 
 @Value
-public class CreateReceivingOrderEvent 
+public class ReceivingOrderCreatedEvent 
 {
     @TargetAggregateIdentifier
     UUID id;

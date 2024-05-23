@@ -15,6 +15,6 @@ public class CreateReceivingOrderCommand
     UUID supplierId;
     String supplierName;
     UUID transporterId;
-    UUID transporterName;
+    String transporterName;
     Date date;
 }

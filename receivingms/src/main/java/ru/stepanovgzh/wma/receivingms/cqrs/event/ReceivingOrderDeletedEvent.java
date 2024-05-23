@@ -7,7 +7,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.Value;
 
 @Value
-public class DeleteReceivingOrderEvent 
+public class ReceivingOrderDeletedEvent 
 {
     @TargetAggregateIdentifier
     UUID id;

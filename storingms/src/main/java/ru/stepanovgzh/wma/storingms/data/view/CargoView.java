@@ -9,7 +9,7 @@ import ru.stepanovgzh.wma.storingms.data.value.PackType;
 @Value
 public class CargoView 
 {
-    UUID cargoId;
+    UUID id;
     String skuBarcode;
     String skuName;
     String skuDescription;

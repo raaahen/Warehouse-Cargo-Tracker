@@ -5,16 +5,12 @@ import java.util.UUID;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.Value;
-import ru.stepanovgzh.wma.receivingms.data.value.PackType;
-import ru.stepanovgzh.wma.receivingms.data.value.Sku;
+import ru.stepanovgzh.wma.receivingms.data.entity.ReceivingOrderDetail;
 
 @Value
-public class AddDetailToReceivingOrderEvent 
+public class DetailAddedToReceivingOrderEvent 
 {
     @TargetAggregateIdentifier
     UUID receivingOrderId;
-    UUID detailId;
-    Sku sku;
-    int qty;
-    PackType packType;
+    ReceivingOrderDetail detail;
 }

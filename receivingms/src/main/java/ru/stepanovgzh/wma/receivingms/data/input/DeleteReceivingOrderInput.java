@@ -1,5 +1,11 @@
 package ru.stepanovgzh.wma.receivingms.data.input;
 
-public class DeleteReceivingOrderInput {
-    
+import java.util.UUID;
+
+import lombok.Value;
+
+@Value
+public class DeleteReceivingOrderInput 
+{
+    UUID id;
 }

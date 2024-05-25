@@ -95,7 +95,7 @@ public class ReceivingOrderProjection
     }
 
     @QueryHandler
-    public List<ReceivingOrderView> handleReceivingOrdersList(AllReceivingOrdersQuery allReceivingOrdersQuery)
+    public List<ReceivingOrderView> handleReceivingOrders(AllReceivingOrdersQuery allReceivingOrdersQuery)
     {
         return receivingOrderRepository.findAll().stream()
             .map(receivingOrder -> receivingOrderMapper.map(receivingOrder))

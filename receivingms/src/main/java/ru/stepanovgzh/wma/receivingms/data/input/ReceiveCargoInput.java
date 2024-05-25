@@ -6,7 +6,7 @@ import lombok.Value;
 import ru.stepanovgzh.wma.receivingms.data.value.PackType;
 
 @Value
-public class AddDetailToReceivingOrderInput 
+public class ReceiveCargoInput 
 {
     UUID receivingOrderId;
     UUID detailId;

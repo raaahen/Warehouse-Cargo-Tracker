@@ -1,5 +1,6 @@
 package ru.stepanovgzh.wma.receivingms.data.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,5 +40,16 @@ public class ReceivingOrder
     ReceivingStatus receivingStatus;
 
     @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER)
-    List<ReceivingOrderDetail> details;
+    List<ReceivingOrderDetail> details = new ArrayList<>();
+
+    public void addDetail(ReceivingOrderDetail receivingOrderDetail)
+    {
+        details.add(receivingOrderDetail);
+    }
+
+    // public void removeDetail(UUID receivingOrderDetailId)
+    // {
+    //     details.removeIf(detail -> detail.getId().equals(receivingOrderDetailId));
+    //     details.stream(detail -> details.)
+    // }
 }

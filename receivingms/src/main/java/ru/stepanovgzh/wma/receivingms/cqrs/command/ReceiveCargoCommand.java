@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.Value;
-import ru.stepanovgzh.wma.receivingms.data.value.PackType;
+import ru.stepanovgzh.wma.receivingms.data.value.SkuReceivingStatus;
 
 @Value
 public class ReceiveCargoCommand 
@@ -13,10 +13,6 @@ public class ReceiveCargoCommand
     @TargetAggregateIdentifier
     UUID receivingOrderId;
     UUID detailId;
-    String skuBarcode;
-    String skuName;
-    String skuDecription;
-    int qty;
-    PackType packType;
-    String packDescription;
+    UUID cargoId;
+    SkuReceivingStatus skuReceivingStatus;
 }

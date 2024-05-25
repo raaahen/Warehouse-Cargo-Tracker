@@ -103,21 +103,24 @@ public class ReceivingOrderAggregate
     @CommandHandler
     public void handle(ReceiveCargoCommand receiveCargoCommand)
     { 
-        // apply(new CargoReceivedEvent(
-        //     receiveCargoCommand.getReceivingOrderId(),
-        //     receiveCargoCommand.getDetailId(),
-        //     new Sku(receiveCargoCommand.getSkuBarcode(),
-        //         receiveCargoCommand.getSkuName(),
-        //         receiveCargoCommand.getSkuDecription()),
-        //     receiveCargoCommand.getQty(),
-        //     new Pack(receiveCargoCommand.getPackType(),
-        //         receiveCargoCommand.getPackDescription())));
+        apply(new CargoReceivedEvent(
+            receiveCargoCommand.getReceivingOrderId(), 
+            receiveCargoCommand.getDetailId(), 
+            receiveCargoCommand.getCargoId(), 
+            receiveCargoCommand.getSkuReceivingStatus()));
     }
 
     @EventSourcingHandler
-    public void on(CargoReceivedEvent cargoReceivedEvent)
+    public void on(CargoReceivedEvent cargoReceivedEvent) 
     {
-        
+        this.details.stream()
+            .filter(detail -> detail.getId().equals(cargoReceivedEvent.getDetailId()))
+            .findFirst()
+            .ifPresent(detail -> 
+                {
+                    detail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
+                    detail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
+                });
     }
 
     @EventSourcingHandler

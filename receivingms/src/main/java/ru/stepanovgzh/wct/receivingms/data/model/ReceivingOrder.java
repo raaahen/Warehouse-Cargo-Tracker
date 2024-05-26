@@ -41,15 +41,4 @@ public class ReceivingOrder
 
     @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER)
     List<ReceivingOrderDetail> details = new ArrayList<>();
-
-    public void addDetail(ReceivingOrderDetail receivingOrderDetail)
-    {
-        details.add(receivingOrderDetail);
-    }
-
-    // public void removeDetail(UUID receivingOrderDetailId)
-    // {
-    //     details.removeIf(detail -> detail.getId().equals(receivingOrderDetailId));
-    //     details.stream(detail -> details.)
-    // }
 }

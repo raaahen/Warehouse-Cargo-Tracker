@@ -79,12 +79,8 @@ public class ReceivingOrderController
         return commandGateway.send(new ReceiveCargoCommand(
             receiveCargoInput.getReceivingOrderId(),
             receiveCargoInput.getDetailId(),
-            receiveCargoInput.getSkuBarcode(),
-            receiveCargoInput.getSkuName(),
-            receiveCargoInput.getSkuDecription(),
-            receiveCargoInput.getQty(),
-            receiveCargoInput.getPackType(),
-            receiveCargoInput.getPackDescription()));
+            receiveCargoInput.getCargoId(),
+            receiveCargoInput.getSkuReceivingStatus()));
     }
 
     @DeleteMapping

@@ -57,11 +57,11 @@ public class ReceivingOrderProjection
                 .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
                     + detailRemovedFromReceivingOrderEvent.getReceivingOrderId()));
         ReceivingOrderDetail detail
-                    = receivingOrderDetailRepository
-                        .findById(detailRemovedFromReceivingOrderEvent.getDetailId())
-                        .orElseThrow(() 
-                            -> new EntityNotFoundException("Receiving order detail not found, id = " 
-                                + detailRemovedFromReceivingOrderEvent.getDetailId()));
+            = receivingOrderDetailRepository
+                .findById(detailRemovedFromReceivingOrderEvent.getDetailId())
+                .orElseThrow(() 
+                    -> new EntityNotFoundException("Receiving order detail not found, id = " 
+                        + detailRemovedFromReceivingOrderEvent.getDetailId()));
         receivingOrderDetailRepository.delete(detail);
         receivingOrderRepository.save(receivingOrder);
     }
@@ -69,18 +69,13 @@ public class ReceivingOrderProjection
     @EventHandler
     public void on(CargoReceivedEvent cargoReceivedEvent)
     {
-        ReceivingOrder receivingOrder 
-            = receivingOrderRepository.findById(cargoReceivedEvent.getReceivingOrderId())
-                .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
-                    + cargoReceivedEvent.getReceivingOrderId()));
         ReceivingOrderDetail receivingOrderDetail 
             = receivingOrderDetailRepository.findById(cargoReceivedEvent.getDetailId())
-                .orElseThrow(() 
-                    -> new EntityNotFoundException("Receiving order detail not found, id = " 
-                        + cargoReceivedEvent.getDetailId()));
-        if (receivingOrder.getId().equals(receivingOrderDetail.getReceivingOrderId()))
-        {
-        }
+                .orElseThrow(() -> new EntityNotFoundException(
+                    "Receiving order detail not found, id = " + cargoReceivedEvent.getDetailId()));
+        receivingOrderDetail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
+        receivingOrderDetail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
+        receivingOrderDetailRepository.save(receivingOrderDetail);
     }
 
     @EventHandler

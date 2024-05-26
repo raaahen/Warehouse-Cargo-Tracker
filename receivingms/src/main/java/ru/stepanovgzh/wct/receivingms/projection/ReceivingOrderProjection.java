@@ -39,13 +39,10 @@ public class ReceivingOrderProjection
     @EventHandler
     public void on(DetailAddedToReceivingOrderEvent detailAddedToReceivingOrderEvent)
     {
-        ReceivingOrder receivingOrder 
-            = receivingOrderRepository
-                .findById(detailAddedToReceivingOrderEvent.getReceivingOrderId())
-                .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
-                    + detailAddedToReceivingOrderEvent.getReceivingOrderId()));
-        receivingOrder.addDetail(detailAddedToReceivingOrderEvent.getDetail());
-        receivingOrderRepository.save(receivingOrder);
+        receivingOrderRepository.findById(detailAddedToReceivingOrderEvent.getReceivingOrderId())
+            .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
+                + detailAddedToReceivingOrderEvent.getReceivingOrderId()));
+        receivingOrderDetailRepository.save(detailAddedToReceivingOrderEvent.getDetail());
     }
 
     @EventHandler

@@ -1,4 +1,5 @@
 # Warehouse Cargo Tracker (WCT)
+- Отслеживание грузов на складе
 
 WCT разработан с использованием подходов DDD (Domain-Driven Design), CQRS (Command Query Responsibility Segregation) и ES (Event Sourcing).
 

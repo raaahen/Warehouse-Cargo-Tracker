@@ -37,7 +37,7 @@ public class ReceivingOrderController
     private final QueryGateway queryGateway;
 
     @PostMapping("/create")
-    public CompletableFuture<UUID> createCargo(
+    public CompletableFuture<UUID> createReceivingOrder(
         @RequestBody CreateReceivingOrderInput createReceivingOrderInput)
     {
         return commandGateway.send(new CreateReceivingOrderCommand(

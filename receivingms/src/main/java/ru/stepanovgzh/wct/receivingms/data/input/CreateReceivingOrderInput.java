@@ -8,7 +8,6 @@ import lombok.Value;
 @Value
 public class CreateReceivingOrderInput 
 {
-    UUID id;
     UUID supplierId;
     String supplierName;
     UUID transporterId;

@@ -55,7 +55,7 @@ public class ReceivingOrderController
     {
         return commandGateway.send(new AddDetailToReceivingOrderCommand(
             addDetailToReceivingOrderInput.getReceivingOrderId(),
-            addDetailToReceivingOrderInput.getDetailId(),
+            UUID.randomUUID(),
             addDetailToReceivingOrderInput.getSkuBarcode(),
             addDetailToReceivingOrderInput.getSkuName(),
             addDetailToReceivingOrderInput.getSkuDecription(),

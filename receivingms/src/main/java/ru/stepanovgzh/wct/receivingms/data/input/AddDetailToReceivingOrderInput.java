@@ -9,7 +9,6 @@ import ru.stepanovgzh.wct.receivingms.data.value.PackType;
 public class AddDetailToReceivingOrderInput 
 {
     UUID receivingOrderId;
-    UUID detailId;
     String skuBarcode;
     String skuName;
     String skuDecription;

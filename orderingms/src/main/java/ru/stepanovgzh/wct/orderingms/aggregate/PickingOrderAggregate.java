@@ -1,5 +1,6 @@
 package ru.stepanovgzh.wct.orderingms.aggregate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class PickingOrderAggregate
     Transporter transporter;
     Date preparationDeadline;
     PickingStatus status;
-    List<PickingOrderDetail> details;
+    List<PickingOrderDetail> details = new ArrayList<>();
 
     @CommandHandler
     public PickingOrderAggregate(CreatePickingOrderCommand createPickingOrderCommand)

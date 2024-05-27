@@ -30,3 +30,10 @@ Content-Type: application/json
 }
 
 ###
+
+GET http://localhost:8080/cargostoring
+Content-Type: application/json
+
+{
+    
+}

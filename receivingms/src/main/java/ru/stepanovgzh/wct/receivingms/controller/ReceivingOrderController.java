@@ -65,7 +65,7 @@ public class ReceivingOrderController
     }
 
     @PostMapping("/remove_detail")
-    public CompletableFuture<UUID> removeDetailToReceivingOrder(
+    public CompletableFuture<UUID> removeDetailFromReceivingOrder(
         @RequestBody RemoveDetailFromReceivingOrderInput removeDetailFromReceivingOrderInput)
     {
         return commandGateway.send(new RemoveDetailFromReceivingOrderCommand(

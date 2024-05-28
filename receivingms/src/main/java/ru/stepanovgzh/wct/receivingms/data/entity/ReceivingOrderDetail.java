@@ -3,11 +3,11 @@ package ru.stepanovgzh.wct.receivingms.data.entity;
 import java.util.UUID;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +24,7 @@ public class ReceivingOrderDetail
     @Id
     UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "receiving_order_id")
+    @Column(name = "receiving_order_id", nullable = false)
     UUID receivingOrderId;
 
     @Embedded
@@ -38,6 +37,7 @@ public class ReceivingOrderDetail
 
     UUID receivedCargoId;
 
+    @Enumerated(EnumType.STRING)
     SkuReceivingStatus skuReceivingStatus;
 
     public ReceivingOrderDetail(UUID id, UUID receivingOrderId, Sku sku, int qty, Pack pack)

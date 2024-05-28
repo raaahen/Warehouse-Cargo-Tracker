@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -37,6 +39,7 @@ public class ReceivingOrder
     @Temporal(TemporalType.TIMESTAMP)
     Date receivingDate;
 
+    @Enumerated(EnumType.STRING)
     ReceivingStatus receivingStatus;
 
     @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER)

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   axon-storingms:
@@ -9,8 +9,8 @@ services:
       - "8124:8124"
       - "8224:8224"
 
-  postgres:
-    container_name: postgres
+  postgres-storingms:
+    container_name: postgres-storingms
     image: postgres:latest
     restart: unless-stopped
     volumes:

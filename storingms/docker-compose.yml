@@ -5,9 +5,9 @@ services:
     image: axoniq/axonserver
     hostname: axon
     ports:
-      - "8024:8024"
-      - "8124:8124"
-      - "8224:8224"
+      - "8025:8024"
+      - "8125:8124"
+      - "8225:8224"
 
   postgres-storingms:
     container_name: postgres-storingms
@@ -17,9 +17,11 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
-      - POSTGRES_PASSWORD=password
+      POSTGRES_DB: storingdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
 
 volumes:
   postgres-data:

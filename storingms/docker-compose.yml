@@ -5,9 +5,9 @@ services:
     image: axoniq/axonserver
     hostname: axon-storingms
     ports:
-      - "8024:8024"
-      - "8124:8124"
-      - "8224:8224"
+      - "8025:8024"
+      - "8125:8124"
+      - "8225:8224"
 
   postgres-storingms:
     container_name: postgres-storingms

@@ -1,4 +1,4 @@
-POST http://localhost:8080/cargostoring/create
+POST http://localhost:8282/cargostoring/create
 Content-Type: application/json
 
 {
@@ -12,28 +12,45 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8080/cargostoring/update
+POST http://localhost:8282/cargostoring/move
 Content-Type: application/json
 
 {
-    "id": "6947b88d-6b91-441e-a59c-45781666dbba",
+    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
+    "zone": "A1",
+    "cell": "C5"
+}
+
+###
+
+POST http://localhost:8282/cargostoring/update
+Content-Type: application/json
+
+{
+    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
     "qty": 90
 }
 
 ###
 
-DELETE http://localhost:8080/cargostoring
+POST http://localhost:8282/cargostoring/changestatus
 Content-Type: application/json
 
 {
-    "id": "6947b88d-6b91-441e-a59c-45781666dbba"
+    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
+    "status": "BLOCKED"
 }
 
 ###
 
-GET http://localhost:8080/cargostoring
+DELETE http://localhost:8282/cargostoring
 Content-Type: application/json
 
 {
-    
+    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1"
 }
+
+###
+
+GET http://localhost:8282/cargostoring
+Content-Type: application/json

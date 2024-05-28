@@ -3,6 +3,7 @@ package ru.stepanovgzh.wct.storingms.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.stepanovgzh.wct.storingms.cqrs.command.ChangeCargoStatusCommand;
 import ru.stepanovgzh.wct.storingms.cqrs.command.CreateCargoCommand;
@@ -38,7 +39,8 @@ public class CargoController
     private final QueryGateway queryGateway;
 
     @PostMapping("/create")
-    public CompletableFuture<UUID> createCargo(@RequestBody CreateCargoInput createCargoInput)
+    public CompletableFuture<UUID> createCargo(
+        @Valid @RequestBody CreateCargoInput createCargoInput)
     {
         return commandGateway.send(new CreateCargoCommand(
             UUID.randomUUID(),
@@ -51,7 +53,8 @@ public class CargoController
     }
 
     @PostMapping("/move")
-    public CompletableFuture<UUID> moveCargo(@RequestBody MoveCargoInput moveCargoInput)
+    public CompletableFuture<UUID> moveCargo(
+        @Valid @RequestBody MoveCargoInput moveCargoInput)
     {
         return commandGateway.send(new MoveCargoCommand(
             moveCargoInput.getId(),
@@ -69,7 +72,8 @@ public class CargoController
     }
 
     @PostMapping("/update")
-    public CompletableFuture<UUID> updateCargo(@RequestBody UpdateCargoInput updateCargoInput)
+    public CompletableFuture<UUID> updateCargo(
+        @Valid @RequestBody UpdateCargoInput updateCargoInput)
     {
         return commandGateway.send(new UpdateCargoCommand(
             updateCargoInput.getId(),
@@ -77,7 +81,8 @@ public class CargoController
     }
 
     @DeleteMapping
-    public CompletableFuture<UUID> deleteCargo(@RequestBody DeleteCargoInput deleteCargoInput)
+    public CompletableFuture<UUID> deleteCargo(
+        @Valid @RequestBody DeleteCargoInput deleteCargoInput)
     {
         return commandGateway.send(new DeleteCargoCommand(
             deleteCargoInput.getId()));

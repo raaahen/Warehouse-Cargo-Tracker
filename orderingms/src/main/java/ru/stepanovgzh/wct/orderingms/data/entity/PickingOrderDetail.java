@@ -4,10 +4,10 @@ import java.util.UUID;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +24,7 @@ public class PickingOrderDetail
     @Id
     UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "picking_order_id")
+    @JoinColumn(name = "picking_order_id", nullable = false)
     UUID pickingOrderId;
 
     @Embedded
@@ -38,6 +37,7 @@ public class PickingOrderDetail
 
     UUID pickedCargoId;
 
+    @Enumerated(EnumType.STRING)
     SkuPickingStatus skuPickingStatus;
 
     public PickingOrderDetail(UUID id, UUID pickingOrderId, Sku sku, int qty, Pack pack)

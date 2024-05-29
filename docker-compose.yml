@@ -1,0 +1,97 @@
+services:
+  axonserver:
+    image: axoniq/axonserver
+    container_name: axonserver
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+      - "8224:8224"
+
+  storingms:
+    build:
+      context: ./storingms
+      dockerfile: Dockerfile
+    container_name: storingms
+    environment:
+      AXON_AXONSERVER_SERVERS: axonserver:8124
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-storingms:5432/storingdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - axonserver
+      - postgres-storingms
+
+  postgres-storingms:
+    container_name: postgres-storingms
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./storingms/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: storingdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  receivingms:
+    build:
+      context: ./receivingms
+      dockerfile: Dockerfile
+    container_name: receivingms
+    environment:
+      AXON_AXONSERVER_SERVERS: axonserver:8124
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-receivingms:5432/receivingdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - axonserver
+      - postgres-receivingms
+
+  postgres-receivingms:
+    container_name: postgres-receivingms
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./receivingms/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - receivingms-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_DB: receivingdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  orderingms:
+    build:
+      context: ./orderingms
+      dockerfile: Dockerfile
+    container_name: orderingms
+    environment:
+      AXON_AXONSERVER_SERVERS: axonserver:8124
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orderingms:5432/orderingdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - axonserver
+      - postgres-orderingms
+
+  postgres-orderingms:
+    container_name: postgres-orderingms
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./orderingms/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - orderingms-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_DB: orderingdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+volumes:
+  postgres-data:
+  receivingms-postgres-data:
+  orderingms-postgres-data:

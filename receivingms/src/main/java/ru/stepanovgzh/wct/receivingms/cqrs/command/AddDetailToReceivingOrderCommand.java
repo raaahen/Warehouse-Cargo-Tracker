@@ -15,7 +15,7 @@ public class AddDetailToReceivingOrderCommand
     UUID detailId;
     String skuBarcode;
     String skuName;
-    String skuDecription;
+    String skuDescription;
     int qty;
     PackType packType;
     String packDescription;

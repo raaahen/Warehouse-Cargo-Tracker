@@ -1,5 +1,5 @@
 package ru.stepanovgzh.wct.orderingms.data.value;
 
-public class PickingStatus {
+public enum PickingStatus {
     
 }

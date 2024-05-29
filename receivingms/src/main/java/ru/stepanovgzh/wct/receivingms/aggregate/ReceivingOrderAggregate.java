@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 @NoArgsConstructor
 public class ReceivingOrderAggregate 
 {
-    @TargetAggregateIdentifier
+    @AggregateIdentifier
     UUID id;
     Supplier supplier;
     Transporter transporter;
@@ -73,7 +73,7 @@ public class ReceivingOrderAggregate
                 addDetailToReceivingOrderCommand.getReceivingOrderId(),
                 new Sku(addDetailToReceivingOrderCommand.getSkuBarcode(),
                     addDetailToReceivingOrderCommand.getSkuName(),
-                    addDetailToReceivingOrderCommand.getSkuDecription()),
+                    addDetailToReceivingOrderCommand.getSkuDescription()),
                 addDetailToReceivingOrderCommand.getQty(),
                 new Pack(addDetailToReceivingOrderCommand.getPackType(),
                     addDetailToReceivingOrderCommand.getPackDescription()))));

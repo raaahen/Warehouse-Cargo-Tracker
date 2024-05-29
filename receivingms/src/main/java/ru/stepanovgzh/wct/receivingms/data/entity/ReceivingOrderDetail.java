@@ -6,8 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,7 +35,6 @@ public class ReceivingOrderDetail
 
     UUID receivedCargoId;
 
-    @Enumerated(EnumType.STRING)
     SkuReceivingStatus skuReceivingStatus;
 
     public ReceivingOrderDetail(UUID id, UUID receivingOrderId, Sku sku, int qty, Pack pack)

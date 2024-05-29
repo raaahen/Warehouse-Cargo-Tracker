@@ -10,5 +10,4 @@ import ru.stepanovgzh.wct.receivingms.data.entity.ReceivingOrderDetail;
 @Repository
 public interface ReceivingOrderDetailRepository extends JpaRepository<ReceivingOrderDetail, UUID>
 {
-    void deleteByReceivingOrderId(UUID receivingOrderId);
 }

@@ -1,0 +1,52 @@
+### add supplier
+POST http://localhost:8181/cargoreceiving/suppliers
+Content-Type: text/plain
+
+Supplier 1
+
+### get suppliers
+GET http://localhost:8181/cargoreceiving/suppliers
+
+### delete supplier
+DELETE http://localhost:8181/cargoreceiving/suppliers/1bfd1897-21f5-4e81-9e38-be63ab45a769
+
+### add transporter
+POST http://localhost:8181/cargoreceiving/transporters
+Content-Type: text/plain
+
+Transporter 2
+
+### get transporters
+GET http://localhost:8181/cargoreceiving/transporters
+
+### delete transporter
+DELETE http://localhost:8181/cargoreceiving/suppliers/1bfd1897-21f5-4e81-9e38-be63ab45a769
+
+### create receiving order
+POST http://localhost:8181/cargoreceiving/create
+Content-Type: application/json
+
+{
+  "supplierId": "6a360146-0598-4d56-a2b0-711c1338f9b7",
+  "supplierName": "Supplier 1",
+  "transporterId": "3ad0488e-dacc-4e5a-8b58-4727a9696118",
+  "transporterName": "Transporter 1",
+  "date": "2024-05-30T10:30:00"
+}
+
+###add detail to receiving order
+POST http://localhost:8181/cargoreceiving/add_detail
+Content-Type: application/json
+
+{
+  "receivingOrderId": "cf5e86a6-62c7-4904-99f0-5cc48ec8570c",
+  "skuBarcode": "12345",
+  "skuName": "Product Name",
+  "skuDecription": "Product Description",
+  "qty": 10,
+  "packType": "CARTON",
+  "packDescription": "Pack Description"
+}
+
+### get receiving orders
+GET http://localhost:8181/cargoreceiving

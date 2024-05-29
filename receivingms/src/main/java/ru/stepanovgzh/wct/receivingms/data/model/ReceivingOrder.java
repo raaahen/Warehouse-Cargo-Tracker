@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.CascadeType;
 import lombok.Data;
 import ru.stepanovgzh.wct.receivingms.data.entity.ReceivingOrderDetail;
 import ru.stepanovgzh.wct.receivingms.data.entity.Supplier;
@@ -29,11 +27,9 @@ public class ReceivingOrder
     UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
     Supplier supplier;
 
     @ManyToOne
-    @JoinColumn(name = "transporter_id")
     Transporter transporter;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,6 +37,6 @@ public class ReceivingOrder
 
     ReceivingStatus receivingStatus;
 
-    @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<ReceivingOrderDetail> details = new ArrayList<>();
 }

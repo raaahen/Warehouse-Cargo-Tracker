@@ -28,7 +28,6 @@ public class ReceivingOrderProjection
 {
     private final ReceivingOrderMapper receivingOrderMapper;
     private final ReceivingOrderRepository receivingOrderRepository;
-    private final ReceivingOrderDetailRepository receivingOrderDetailRepository;
 
     @EventHandler
     public void on(ReceivingOrderCreatedEvent receivingOrderCreatedEvent)
@@ -39,10 +38,13 @@ public class ReceivingOrderProjection
     @EventHandler
     public void on(DetailAddedToReceivingOrderEvent detailAddedToReceivingOrderEvent)
     {
-        receivingOrderRepository.findById(detailAddedToReceivingOrderEvent.getReceivingOrderId())
-            .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
-                + detailAddedToReceivingOrderEvent.getReceivingOrderId()));
-        receivingOrderDetailRepository.save(detailAddedToReceivingOrderEvent.getDetail());
+        ReceivingOrder receivingOrder =
+            receivingOrderRepository
+                .findById(detailAddedToReceivingOrderEvent.getReceivingOrderId())
+                .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = "
+                    + detailAddedToReceivingOrderEvent.getReceivingOrderId()));
+        receivingOrder.getDetails().add(detailAddedToReceivingOrderEvent.getDetail());
+        receivingOrderRepository.save(receivingOrder);
     }
 
     @EventHandler
@@ -53,26 +55,33 @@ public class ReceivingOrderProjection
                 .findById(detailRemovedFromReceivingOrderEvent.getReceivingOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
                     + detailRemovedFromReceivingOrderEvent.getReceivingOrderId()));
-        ReceivingOrderDetail detail
-            = receivingOrderDetailRepository
-                .findById(detailRemovedFromReceivingOrderEvent.getDetailId())
-                .orElseThrow(() 
-                    -> new EntityNotFoundException("Receiving order detail not found, id = " 
-                        + detailRemovedFromReceivingOrderEvent.getDetailId()));
-        receivingOrderDetailRepository.delete(detail);
+        ReceivingOrderDetail detailToRemove = receivingOrder.getDetails().stream()
+            .filter(detail ->
+                detail.getId().equals(detailRemovedFromReceivingOrderEvent.getDetailId()))
+            .findFirst()
+            .orElseThrow(() ->
+                new EntityNotFoundException("Receiving order detail not found, id = "
+                    + detailRemovedFromReceivingOrderEvent.getDetailId()));
+        receivingOrder.getDetails().remove(detailToRemove);
         receivingOrderRepository.save(receivingOrder);
     }
 
     @EventHandler
     public void on(CargoReceivedEvent cargoReceivedEvent)
     {
-        ReceivingOrderDetail receivingOrderDetail 
-            = receivingOrderDetailRepository.findById(cargoReceivedEvent.getDetailId())
+        ReceivingOrder receivingOrder =
+            receivingOrderRepository.findById(cargoReceivedEvent.getReceivingOrderId())
                 .orElseThrow(() -> new EntityNotFoundException(
-                    "Receiving order detail not found, id = " + cargoReceivedEvent.getDetailId()));
+                    "Receiving order not found, id = "
+                        + cargoReceivedEvent.getReceivingOrderId()));
+        ReceivingOrderDetail receivingOrderDetail = receivingOrder.getDetails().stream()
+            .filter(detail -> detail.getId().equals(cargoReceivedEvent.getDetailId()))
+            .findFirst()
+            .orElseThrow(() -> new EntityNotFoundException(
+                "Receiving order detail not found, id = " + cargoReceivedEvent.getDetailId()));
         receivingOrderDetail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
         receivingOrderDetail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
-        receivingOrderDetailRepository.save(receivingOrderDetail);
+        receivingOrderRepository.save(receivingOrder);
     }
 
     @EventHandler
@@ -82,15 +91,15 @@ public class ReceivingOrderProjection
             = receivingOrderRepository.findById(receivingOrderDeletedEvent.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Receiving order not found, id = " 
                     + receivingOrderDeletedEvent.getId()));
-        receivingOrderDetailRepository.deleteByReceivingOrderId(receivingOrder.getId());
         receivingOrderRepository.delete(receivingOrder);
     }
 
     @QueryHandler
-    public List<ReceivingOrderView> handleReceivingOrders(AllReceivingOrdersQuery allReceivingOrdersQuery)
+    public List<ReceivingOrderView> handleReceivingOrders(
+        AllReceivingOrdersQuery allReceivingOrdersQuery)
     {
         return receivingOrderRepository.findAll().stream()
-            .map(receivingOrder -> receivingOrderMapper.map(receivingOrder))
+            .map(receivingOrderMapper::map)
             .collect(Collectors.toList());
     }
 }

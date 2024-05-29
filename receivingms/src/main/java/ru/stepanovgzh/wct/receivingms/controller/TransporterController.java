@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
+import ru.stepanovgzh.wct.receivingms.data.entity.Supplier;
 import ru.stepanovgzh.wct.receivingms.data.entity.Transporter;
 import ru.stepanovgzh.wct.receivingms.data.repository.TransporterRepository;
 
@@ -19,10 +20,11 @@ public class TransporterController
     private final TransporterRepository transporterRepository;
 
     @PostMapping
-    public ResponseEntity<Transporter> addTransporter(@RequestBody Transporter transporter) 
+    public ResponseEntity<Transporter> addTransporter(@RequestBody String name)
     {
-        Transporter savedTransporter = transporterRepository.save(transporter);
-        return new ResponseEntity<>(savedTransporter, HttpStatus.CREATED);
+        Transporter transporter = new Transporter(UUID.randomUUID(), name);
+        transporterRepository.save(transporter);
+        return new ResponseEntity<>(transporter, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -38,7 +39,7 @@ public class ReceivingOrderController
 
     @PostMapping("/create")
     public CompletableFuture<UUID> createReceivingOrder(
-        @RequestBody CreateReceivingOrderInput createReceivingOrderInput)
+        @Valid @RequestBody CreateReceivingOrderInput createReceivingOrderInput)
     {
         return commandGateway.send(new CreateReceivingOrderCommand(
             UUID.randomUUID(),
@@ -51,7 +52,7 @@ public class ReceivingOrderController
 
     @PostMapping("/add_detail")
     public CompletableFuture<UUID> addDetailToReceivingOrder(
-        @RequestBody AddDetailToReceivingOrderInput addDetailToReceivingOrderInput)
+        @Valid @RequestBody AddDetailToReceivingOrderInput addDetailToReceivingOrderInput)
     {
         return commandGateway.send(new AddDetailToReceivingOrderCommand(
             addDetailToReceivingOrderInput.getReceivingOrderId(),
@@ -66,7 +67,7 @@ public class ReceivingOrderController
 
     @PostMapping("/remove_detail")
     public CompletableFuture<UUID> removeDetailFromReceivingOrder(
-        @RequestBody RemoveDetailFromReceivingOrderInput removeDetailFromReceivingOrderInput)
+        @Valid @RequestBody RemoveDetailFromReceivingOrderInput removeDetailFromReceivingOrderInput)
     {
         return commandGateway.send(new RemoveDetailFromReceivingOrderCommand(
             removeDetailFromReceivingOrderInput.getReceivingOrderId(),
@@ -74,7 +75,7 @@ public class ReceivingOrderController
     }
 
     @PostMapping("/receive_cargo")
-    public CompletableFuture<UUID> receiveCargo(@RequestBody ReceiveCargoInput receiveCargoInput)
+    public CompletableFuture<UUID> receiveCargo(@Valid @RequestBody ReceiveCargoInput receiveCargoInput)
     {
         return commandGateway.send(new ReceiveCargoCommand(
             receiveCargoInput.getReceivingOrderId(),
@@ -85,7 +86,7 @@ public class ReceivingOrderController
 
     @DeleteMapping
     public CompletableFuture<UUID> deleteReceivingOrder(
-        @RequestBody DeleteReceivingOrderInput deleteReceivingOrderInput)
+        @Valid @RequestBody DeleteReceivingOrderInput deleteReceivingOrderInput)
     {
         return commandGateway.send(new DeleteReceivingOrderCommand(
             deleteReceivingOrderInput.getId()));

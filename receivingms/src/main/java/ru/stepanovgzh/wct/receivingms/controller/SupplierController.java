@@ -24,10 +24,11 @@ public class SupplierController
     private final SupplierRepository supplierRepository;
 
     @PostMapping
-    public ResponseEntity<Supplier> addSupplier(@RequestBody Supplier supplier) 
+    public ResponseEntity<Supplier> addSupplier(@RequestBody String name)
     {
-        Supplier savedSupplier = supplierRepository.save(supplier);
-        return new ResponseEntity<>(savedSupplier, HttpStatus.CREATED);
+        Supplier supplier = new Supplier(UUID.randomUUID(), name);
+        supplierRepository.save(supplier);
+        return new ResponseEntity<>(supplier, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -24,7 +24,6 @@ public class PickingOrderDetail
     @Id
     UUID id;
 
-    @JoinColumn(name = "picking_order_id", nullable = false)
     UUID pickingOrderId;
 
     @Embedded
@@ -37,7 +36,6 @@ public class PickingOrderDetail
 
     UUID pickedCargoId;
 
-    @Enumerated(EnumType.STRING)
     SkuPickingStatus skuPickingStatus;
 
     public PickingOrderDetail(UUID id, UUID pickingOrderId, Sku sku, int qty, Pack pack)

@@ -14,6 +14,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import lombok.NoArgsConstructor;
 import ru.stepanovgzh.wct.orderingms.cqrs.command.AddDetailToPickingOrderCommand;
 import ru.stepanovgzh.wct.orderingms.cqrs.command.CreatePickingOrderCommand;
+import ru.stepanovgzh.wct.orderingms.cqrs.command.DeletePickingOrderCommand;
 import ru.stepanovgzh.wct.orderingms.cqrs.command.PickCargoCommand;
 import ru.stepanovgzh.wct.orderingms.cqrs.command.RemoveDetailFromPickingOrderCommand;
 import ru.stepanovgzh.wct.orderingms.cqrs.event.CargoPickedEvent;
@@ -76,7 +77,7 @@ public class PickingOrderAggregate
                 new Sku(
                     addDetailToPickingOrderCommand.getSkuBarcode(),
                     addDetailToPickingOrderCommand.getSkuName(),
-                    addDetailToPickingOrderCommand.getSkuDecription()),
+                    addDetailToPickingOrderCommand.getSkuDescription()),
                 addDetailToPickingOrderCommand.getQty(),
                 new Pack(
                     addDetailToPickingOrderCommand.getPackType(),
@@ -125,6 +126,12 @@ public class PickingOrderAggregate
                     detail.setPickedCargoId(cargoPickedEvent.getPickedCargoId());
                     detail.setSkuPickingStatus(cargoPickedEvent.getSkuPickingStatus());
                 });
+    }
+
+    @CommandHandler
+    public void handle(DeletePickingOrderCommand command)
+    {
+        apply(new PickingOrderDeletedEvent(command.getId()));
     }
 
     @EventSourcingHandler

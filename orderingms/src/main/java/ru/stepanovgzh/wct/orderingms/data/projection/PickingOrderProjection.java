@@ -24,11 +24,9 @@ import ru.stepanovgzh.wct.orderingms.data.view.PickingOrderView;
 
 @Service
 @RequiredArgsConstructor
-public class PickingOrderProjection 
-{
+public class PickingOrderProjection {
     private final PickingOrderMapper pickingOrderMapper;
     private final PickingOrderRepository pickingOrderRepository;
-    private final PickingOrderDetailRepository pickingOrderDetailRepository;
 
     @EventHandler
     public void on(PickingOrderCreatedEvent pickingOrderCreatedEvent)
@@ -39,58 +37,67 @@ public class PickingOrderProjection
     @EventHandler
     public void on(DetailAddedToPickingOrderEvent detailAddedToPickingOrderEvent)
     {
-        pickingOrderRepository.findById(detailAddedToPickingOrderEvent.getPickingOrderId())
-            .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = " 
-                + detailAddedToPickingOrderEvent.getPickingOrderId()));
-        pickingOrderDetailRepository.save(detailAddedToPickingOrderEvent.getDetail());
+        PickingOrder pickingOrder =
+            pickingOrderRepository
+                .findById(detailAddedToPickingOrderEvent.getPickingOrderId())
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
+                    + detailAddedToPickingOrderEvent.getPickingOrderId()));
+        pickingOrder.getDetails().add(detailAddedToPickingOrderEvent.getDetail());
+        pickingOrderRepository.save(pickingOrder);
     }
 
     @EventHandler
     public void on(DetailRemovedFromPickingOrderEvent detailRemovedFromPickingOrderEvent)
     {
-        PickingOrder pickingOrder 
-            = pickingOrderRepository
+        PickingOrder pickingOrder =
+            pickingOrderRepository
                 .findById(detailRemovedFromPickingOrderEvent.getPickingOrderId())
-                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = " 
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
                     + detailRemovedFromPickingOrderEvent.getPickingOrderId()));
-        PickingOrderDetail detail
-            = pickingOrderDetailRepository
-                .findById(detailRemovedFromPickingOrderEvent.getDetailId())
-                .orElseThrow(() 
-                    -> new EntityNotFoundException("Picking order detail not found, id = " 
-                        + detailRemovedFromPickingOrderEvent.getDetailId()));
-        pickingOrderDetailRepository.delete(detail);
+        PickingOrderDetail detailToRemove = pickingOrder.getDetails().stream()
+            .filter(detail ->
+                detail.getId().equals(detailRemovedFromPickingOrderEvent.getDetailId()))
+            .findFirst()
+            .orElseThrow(() ->
+                new EntityNotFoundException("Picking order detail not found, id = "
+                    + detailRemovedFromPickingOrderEvent.getDetailId()));
+        pickingOrder.removeDetail(detailToRemove);
         pickingOrderRepository.save(pickingOrder);
     }
 
     @EventHandler
     public void on(CargoPickedEvent cargoPickedEvent)
     {
-        PickingOrderDetail pickingOrderDetail 
-            = pickingOrderDetailRepository.findById(cargoPickedEvent.getDetailId())
+        PickingOrder pickingOrder =
+            pickingOrderRepository.findById(cargoPickedEvent.getPickingOrderId())
                 .orElseThrow(() -> new EntityNotFoundException(
-                    "Picking order detail not found, id = " + cargoPickedEvent.getDetailId()));
+                    "Picking order not found, id = "
+                        + cargoPickedEvent.getPickingOrderId()));
+        PickingOrderDetail pickingOrderDetail = pickingOrder.getDetails().stream()
+            .filter(detail -> detail.getId().equals(cargoPickedEvent.getDetailId()))
+            .findFirst()
+            .orElseThrow(() -> new EntityNotFoundException(
+                "Picking order detail not found, id = " + cargoPickedEvent.getDetailId()));
         pickingOrderDetail.setPickedCargoId(cargoPickedEvent.getPickedCargoId());
         pickingOrderDetail.setSkuPickingStatus(cargoPickedEvent.getSkuPickingStatus());
-        pickingOrderDetailRepository.save(pickingOrderDetail);
+        pickingOrderRepository.save(pickingOrder);
     }
 
     @EventHandler
     public void on(PickingOrderDeletedEvent pickingOrderDeletedEvent)
     {
-        PickingOrder pickingOrder 
-            = pickingOrderRepository.findById(pickingOrderDeletedEvent.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = " 
+        PickingOrder pickingOrder =
+            pickingOrderRepository.findById(pickingOrderDeletedEvent.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
                     + pickingOrderDeletedEvent.getId()));
-        pickingOrderDetailRepository.deleteByPickingOrderId(pickingOrder.getId());
         pickingOrderRepository.delete(pickingOrder);
     }
 
     @QueryHandler
-    public List<PickingOrderView> handleReceivingOrders(AllPickingOrdersQuery allPickingOrdersQuery)
+    public List<PickingOrderView> handlePickingOrders(AllPickingOrdersQuery allPickingOrdersQuery)
     {
         return pickingOrderRepository.findAll().stream()
-            .map(pickingOrder -> pickingOrderMapper.map(pickingOrder))
+            .map(pickingOrderMapper::map)
             .collect(Collectors.toList());
     }
 }

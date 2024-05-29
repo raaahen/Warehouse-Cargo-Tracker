@@ -5,14 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.Data;
 import ru.stepanovgzh.wct.orderingms.data.entity.Client;
 import ru.stepanovgzh.wct.orderingms.data.entity.PickingOrderDetail;
@@ -27,11 +20,9 @@ public class PickingOrder
     UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
     Client client;
 
     @ManyToOne
-    @JoinColumn(name = "transporter_id")
     Transporter transporter;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -39,6 +30,15 @@ public class PickingOrder
 
     PickingStatus status;
 
-    @OneToMany(mappedBy = "pickingOrderId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "receivingOrderId",
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
     List<PickingOrderDetail> details = new ArrayList<>();
+
+    public void removeDetail(PickingOrderDetail detail)
+    {
+        details.remove(detail);
+        detail.setPickingOrderId(null);
+    }
 }

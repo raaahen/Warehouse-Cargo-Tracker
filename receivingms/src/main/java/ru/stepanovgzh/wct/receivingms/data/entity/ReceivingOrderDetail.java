@@ -22,7 +22,6 @@ public class ReceivingOrderDetail
     @Id
     UUID id;
 
-    @Column(name = "receiving_order_id", nullable = false)
     UUID receivingOrderId;
 
     @Embedded

@@ -37,6 +37,15 @@ public class ReceivingOrder
 
     ReceivingStatus receivingStatus;
 
-    @OneToMany(mappedBy = "receivingOrderId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receivingOrderId",
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
     List<ReceivingOrderDetail> details = new ArrayList<>();
+
+    public void removeDetail(ReceivingOrderDetail detail)
+    {
+        details.remove(detail);
+        detail.setReceivingOrderId(null);
+    }
 }

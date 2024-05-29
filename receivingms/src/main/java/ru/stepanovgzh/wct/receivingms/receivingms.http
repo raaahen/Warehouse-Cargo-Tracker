@@ -40,12 +40,40 @@ Content-Type: application/json
 
 {
   "receivingOrderId": "cf5e86a6-62c7-4904-99f0-5cc48ec8570c",
-  "skuBarcode": "12345",
-  "skuName": "Product Name",
-  "skuDecription": "Product Description",
-  "qty": 10,
+  "skuBarcode": "1234554235432",
+  "skuName": "Product Name 3",
+  "skuDecription": "Product 3 Description",
+  "qty": 20,
   "packType": "CARTON",
   "packDescription": "Pack Description"
+}
+
+###remove detail from receiving order
+POST http://localhost:8181/cargoreceiving/remove_detail
+Content-Type: application/json
+
+{
+  "receivingOrderId": "cf5e86a6-62c7-4904-99f0-5cc48ec8570c",
+  "detailId": "e8f6b27e-0eeb-4376-946a-4058d4511e20"
+}
+
+###remove detail from receiving order
+POST http://localhost:8080/cargoreceiving/receive_cargo
+Content-Type: application/json
+
+{
+  "receivingOrderId": "fe07802f-5d5a-4e52-b221-33784b839d34",
+  "detailId": "62dc3584-9126-43b0-8b82-24a831bbcfb8",
+  "cargoId": "a26ac53d-11ec-4d0e-aa0a-1c5cb4203f7d",
+  "skuReceivingStatus": "RECEIVED"
+}
+
+###delete receiving order
+DELETE http://localhost:8181/cargoreceiving
+Content-Type: application/json
+
+{
+  "id": "cf5e86a6-62c7-4904-99f0-5cc48ec8570c"
 }
 
 ### get receiving orders

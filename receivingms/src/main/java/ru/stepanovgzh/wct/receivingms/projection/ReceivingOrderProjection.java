@@ -18,7 +18,6 @@ import ru.stepanovgzh.wct.receivingms.cqrs.query.AllReceivingOrdersQuery;
 import ru.stepanovgzh.wct.receivingms.data.entity.ReceivingOrderDetail;
 import ru.stepanovgzh.wct.receivingms.data.mapper.ReceivingOrderMapper;
 import ru.stepanovgzh.wct.receivingms.data.model.ReceivingOrder;
-import ru.stepanovgzh.wct.receivingms.data.repository.ReceivingOrderDetailRepository;
 import ru.stepanovgzh.wct.receivingms.data.repository.ReceivingOrderRepository;
 import ru.stepanovgzh.wct.receivingms.data.view.ReceivingOrderView;
 
@@ -62,7 +61,7 @@ public class ReceivingOrderProjection
             .orElseThrow(() ->
                 new EntityNotFoundException("Receiving order detail not found, id = "
                     + detailRemovedFromReceivingOrderEvent.getDetailId()));
-        receivingOrder.getDetails().remove(detailToRemove);
+        receivingOrder.removeDetail(detailToRemove);
         receivingOrderRepository.save(receivingOrder);
     }
 

@@ -14,6 +14,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import lombok.NoArgsConstructor;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.AddDetailToReceivingOrderCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.CreateReceivingOrderCommand;
+import ru.stepanovgzh.wct.receivingms.cqrs.command.DeleteReceivingOrderCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.ReceiveCargoCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.RemoveDetailFromReceivingOrderCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.event.CargoReceivedEvent;
@@ -121,6 +122,12 @@ public class ReceivingOrderAggregate
                     detail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
                     detail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
                 });
+    }
+
+    @CommandHandler
+    public void handle(DeleteReceivingOrderCommand command)
+    {
+        apply(new ReceivingOrderDeletedEvent(command.getId()));
     }
 
     @EventSourcingHandler

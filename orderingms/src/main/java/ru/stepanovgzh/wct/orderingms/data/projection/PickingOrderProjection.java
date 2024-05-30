@@ -18,13 +18,13 @@ import ru.stepanovgzh.wct.orderingms.cqrs.query.AllPickingOrdersQuery;
 import ru.stepanovgzh.wct.orderingms.data.entity.PickingOrderDetail;
 import ru.stepanovgzh.wct.orderingms.data.mapper.PickingOrderMapper;
 import ru.stepanovgzh.wct.orderingms.data.model.PickingOrder;
-import ru.stepanovgzh.wct.orderingms.data.repository.PickingOrderDetailRepository;
 import ru.stepanovgzh.wct.orderingms.data.repository.PickingOrderRepository;
 import ru.stepanovgzh.wct.orderingms.data.view.PickingOrderView;
 
 @Service
 @RequiredArgsConstructor
-public class PickingOrderProjection {
+public class PickingOrderProjection
+{
     private final PickingOrderMapper pickingOrderMapper;
     private final PickingOrderRepository pickingOrderRepository;
 

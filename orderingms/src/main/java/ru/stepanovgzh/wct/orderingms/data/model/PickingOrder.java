@@ -30,7 +30,7 @@ public class PickingOrder
 
     PickingStatus status;
 
-    @OneToMany(mappedBy = "receivingOrderId",
+    @OneToMany(mappedBy = "pickingOrderId",
         fetch = FetchType.EAGER,
         cascade = CascadeType.ALL,
         orphanRemoval = true)

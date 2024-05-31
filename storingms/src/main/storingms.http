@@ -16,7 +16,7 @@ POST http://localhost:8282/cargostoring/move
 Content-Type: application/json
 
 {
-    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
+    "id": "912d8de3-25e9-4915-9661-ec83615d73e3",
     "zone": "A1",
     "cell": "C5"
 }
@@ -53,4 +53,9 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8282/cargostoring
+Content-Type: application/json
+
+###
+
+GET http://localhost:8282/cargostoring/912d8de3-25e9-4915-9661-ec83615d73e3/events
 Content-Type: application/json

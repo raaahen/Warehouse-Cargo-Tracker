@@ -9,7 +9,7 @@ import ru.stepanovgzh.wct.storingms.data.value.Sku;
 @Value
 public class CargoCreatedEvent 
 {
-    private UUID id;
+    UUID id;
     Sku sku;
     Pack pack;
     int qty;

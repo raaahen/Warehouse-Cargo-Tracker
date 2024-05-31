@@ -1,6 +1,6 @@
 services:
   axonserver:
-    image: axoniq/axonserver
+    image: axoniq/axonserver:latest
     container_name: axonserver
     ports:
       - "8024:8024"
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./storingms/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres-data:/var/lib/postgresql/data
+      - storingms-postgres-data:/var/lib/postgresql/data
     ports:
       - 5433:5432
     environment:
@@ -63,35 +63,35 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
 
-  orderingms:
+  pickingms:
     build:
-      context: ./orderingms
+      context: ./pickingms
       dockerfile: Dockerfile
-    container_name: orderingms
+    container_name: pickingms
     environment:
       AXON_AXONSERVER_SERVERS: axonserver:8124
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orderingms:5432/orderingdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-pickingms:5432/pickingdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
     depends_on:
       - axonserver
-      - postgres-orderingms
+      - postgres-pickingms
 
-  postgres-orderingms:
-    container_name: postgres-orderingms
+  postgres-pickingms:
+    container_name: postgres-pickingms
     image: postgres:latest
     restart: unless-stopped
     volumes:
-      - ./orderingms/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - orderingms-postgres-data:/var/lib/postgresql/data
+      - ./pickingms/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pickingms-postgres-data:/var/lib/postgresql/data
     ports:
       - 5435:5432
     environment:
-      POSTGRES_DB: orderingdb
+      POSTGRES_DB: pickingdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
 
 volumes:
-  postgres-data:
+  storingms-postgres-data:
   receivingms-postgres-data:
-  orderingms-postgres-data:
+  pickingms-postgres-data:

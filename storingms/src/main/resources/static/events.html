@@ -24,6 +24,10 @@
         th {
             background-color: #f4f4f4;
         }
+        pre {
+            white-space: pre-wrap; /* Allows wrapping */
+            word-wrap: break-word; /* Prevents long words from breaking layout */
+        }
     </style>
 </head>
 <body>
@@ -46,31 +50,54 @@
     </tbody>
 </table>
 <script>
+    function formatJson(json) {
+        // Stringify JSON with 2 spaces for indentation and then convert it to HTML-safe format
+        return JSON.stringify(json, null, 2)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
     async function loadEvents() {
         const aggregateId = document.getElementById('aggregateId').value;
-        const response = await fetch(`http://localhost:8282/cargostoring/${aggregateId}/events`);
-        const events = await response.json();
+        if (!aggregateId) {
+            alert("Please enter an Aggregate ID.");
+            return;
+        }
 
-        const tableBody = document.getElementById('eventsTable').querySelector('tbody');
-        tableBody.innerHTML = '';
+        try {
+            const response = await fetch(`http://localhost:8282/cargostoring/${aggregateId}/events`);
+            if (!response.ok) {
+                throw new Error(`Error fetching events: ${response.statusText}`);
+            }
+            const events = await response.json();
 
-        events.forEach(event => {
-            const row = document.createElement('tr');
+            const tableBody = document.getElementById('eventsTable').querySelector('tbody');
+            tableBody.innerHTML = '';
 
-            const nameCell = document.createElement('td');
-            nameCell.textContent = event.eventType;
-            row.appendChild(nameCell);
+            events.forEach(event => {
+                const row = document.createElement('tr');
 
-            const dataCell = document.createElement('td');
-            dataCell.textContent = JSON.stringify(event.payload);
-            row.appendChild(dataCell);
+                const nameCell = document.createElement('td');
+                nameCell.textContent = event.eventType;
+                row.appendChild(nameCell);
 
-            const timestampCell = document.createElement('td');
-            timestampCell.textContent = event.timestamp;
-            row.appendChild(timestampCell);
+                const dataCell = document.createElement('td');
+                const pre = document.createElement('pre');
+                pre.innerHTML = formatJson(event.payload); // Format JSON data
+                dataCell.appendChild(pre);
+                row.appendChild(dataCell);
 
-            tableBody.appendChild(row);
-        });
+                const timestampCell = document.createElement('td');
+                timestampCell.textContent = event.timestamp;
+                row.appendChild(timestampCell);
+
+                tableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Failed to load events:', error);
+            alert('Failed to load events. See console for details.');
+        }
     }
 </script>
 </body>

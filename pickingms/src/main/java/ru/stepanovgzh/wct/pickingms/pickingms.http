@@ -65,7 +65,7 @@ Content-Type: application/json
   "pickingOrderId": "fe07802f-5d5a-4e52-b221-33784b839d34",
   "detailId": "62dc3584-9126-43b0-8b82-24a831bbcfb8",
   "cargoId": "a26ac53d-11ec-4d0e-aa0a-1c5cb4203f7d",
-  "skuPickingStatus": "PICKED"
+  "skuPickingStatus": "DONE"
 }
 
 ###delete picking order

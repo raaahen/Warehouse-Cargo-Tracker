@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.CargoPickedEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.DetailAddedToPickingOrderEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.DetailRemovedFromPickingOrderEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.PickingOrderCreatedEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.PickingOrderDeletedEvent;
+import ru.stepanovgzh.wct.pickingms.cqrs.event.*;
 import ru.stepanovgzh.wct.pickingms.cqrs.query.AllPickingOrdersQuery;
 import ru.stepanovgzh.wct.pickingms.data.entity.PickingOrderDetail;
 import ru.stepanovgzh.wct.pickingms.data.mapper.PickingOrderMapper;
@@ -80,6 +76,17 @@ public class PickingOrderProjection
                 "Picking order detail not found, id = " + cargoPickedEvent.getDetailId()));
         pickingOrderDetail.setPickedCargoId(cargoPickedEvent.getPickedCargoId());
         pickingOrderDetail.setSkuPickingStatus(cargoPickedEvent.getSkuPickingStatus());
+        pickingOrderRepository.save(pickingOrder);
+    }
+
+    @EventHandler
+    public void on(PickingOrderStatusChangedEvent pickingOrderStatusChangedEvent)
+    {
+        PickingOrder pickingOrder =
+            pickingOrderRepository.findById(pickingOrderStatusChangedEvent.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
+                    + pickingOrderStatusChangedEvent.getId()));
+        pickingOrder.setStatus(pickingOrderStatusChangedEvent.getStatus());
         pickingOrderRepository.save(pickingOrder);
     }
 

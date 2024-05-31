@@ -12,16 +12,8 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import lombok.NoArgsConstructor;
-import ru.stepanovgzh.wct.pickingms.cqrs.command.AddDetailToPickingOrderCommand;
-import ru.stepanovgzh.wct.pickingms.cqrs.command.CreatePickingOrderCommand;
-import ru.stepanovgzh.wct.pickingms.cqrs.command.DeletePickingOrderCommand;
-import ru.stepanovgzh.wct.pickingms.cqrs.command.PickCargoCommand;
-import ru.stepanovgzh.wct.pickingms.cqrs.command.RemoveDetailFromPickingOrderCommand;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.CargoPickedEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.DetailAddedToPickingOrderEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.DetailRemovedFromPickingOrderEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.PickingOrderCreatedEvent;
-import ru.stepanovgzh.wct.pickingms.cqrs.event.PickingOrderDeletedEvent;
+import ru.stepanovgzh.wct.pickingms.cqrs.command.*;
+import ru.stepanovgzh.wct.pickingms.cqrs.event.*;
 import ru.stepanovgzh.wct.pickingms.data.entity.Client;
 import ru.stepanovgzh.wct.pickingms.data.entity.PickingOrderDetail;
 import ru.stepanovgzh.wct.pickingms.data.entity.Transporter;
@@ -126,6 +118,20 @@ public class PickingOrderAggregate
                     detail.setPickedCargoId(cargoPickedEvent.getPickedCargoId());
                     detail.setSkuPickingStatus(cargoPickedEvent.getSkuPickingStatus());
                 });
+    }
+
+    @CommandHandler
+    public void handle(ChangeStatusOfPickingOrderCommand changeStatusOfPickingOrderCommand)
+    {
+        apply(new PickingOrderStatusChangedEvent(
+            changeStatusOfPickingOrderCommand.getId(),
+            changeStatusOfPickingOrderCommand.getStatus()));
+    }
+
+    @EventSourcingHandler
+    public void on(PickingOrderStatusChangedEvent pickingOrderStatusChangedEvent)
+    {
+        this.status = pickingOrderStatusChangedEvent.getStatus();
     }
 
     @CommandHandler

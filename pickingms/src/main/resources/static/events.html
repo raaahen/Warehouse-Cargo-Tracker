@@ -1,10 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Aggregate Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #444;
+        }
+        pre {
+            white-space: pre-wrap; /* Allows wrapping */
+            word-wrap: break-word; /* Prevents long words from breaking layout */
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            margin: 0;
+        }
+        input[type="text"], button {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #777;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
-$END$
+<h1>Picking Order Aggregate Events</h1>
+<div>
+    <label for="aggregateId">PO Aggregate ID:</label>
+    <input type="text" id="aggregateId" placeholder="Enter aggregate ID">
+    <button onclick="loadEvents()">Load Events</button>
+</div>
+<table id="eventsTable">
+    <thead>
+    <tr>
+        <th>Event Name</th>
+        <th>Event Data</th>
+        <th>Timestamp</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Events will be dynamically added here -->
+    </tbody>
+</table>
+<script>
+    function formatCustomJson(json) {
+        let formatted = '';
+        const recurse = (obj, indent) => {
+            for (let key in obj) {
+                if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                    formatted += `${'  '.repeat(indent)}${key}:\n`;
+                    recurse(obj[key], indent + 1);
+                    formatted += '\n';
+                } else {
+                    formatted += `${'  '.repeat(indent)}${key}: "${obj[key]}"\n`;
+                }
+            }
+        };
+        recurse(json, 1);
+        return formatted.trim();
+    }
+
+    function formatEventName(eventName) {
+        // Изменяем "CamelCase" на "Camel Case"
+        return eventName.replace(/([a-z])([A-Z])/g, '$1 $2');
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString(); // Преобразуем в удобочитаемый формат
+    }
+
+    async function loadEvents() {
+        const aggregateId = document.getElementById('aggregateId').value;
+        if (!aggregateId) {
+            alert("Please enter an Aggregate ID.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8383/cargopicking/${aggregateId}/events`);
+            if (!response.ok) {
+                throw new Error(`Error fetching events: ${response.statusText}`);
+            }
+            const events = await response.json();
+
+            const tableBody = document.getElementById('eventsTable').querySelector('tbody');
+            tableBody.innerHTML = '';
+
+            events.forEach(event => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = formatEventName(event.eventType); // Форматируем имя события
+                row.appendChild(nameCell);
+
+                const dataCell = document.createElement('td');
+                const pre = document.createElement('pre');
+                pre.innerHTML = formatCustomJson(event.payload); // Форматируем данные события
+                dataCell.appendChild(pre);
+                row.appendChild(dataCell);
+
+                const timestampCell = document.createElement('td');
+                timestampCell.textContent = formatDate(event.timestamp); // Форматируем временную метку
+                row.appendChild(timestampCell);
+
+                tableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Failed to load events:', error);
+            alert('Failed to load events. See console for details.');
+        }
+    }
+</script>
 </body>
 </html>

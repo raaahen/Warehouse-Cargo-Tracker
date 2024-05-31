@@ -3,17 +3,14 @@ package ru.stepanovgzh.wct.receivingms.controller;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.*;
 
 import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.eventsourcing.eventstore.*;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.AddDetailToReceivingOrderCommand;
@@ -21,6 +18,7 @@ import ru.stepanovgzh.wct.receivingms.cqrs.command.CreateReceivingOrderCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.DeleteReceivingOrderCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.ReceiveCargoCommand;
 import ru.stepanovgzh.wct.receivingms.cqrs.command.RemoveDetailFromReceivingOrderCommand;
+import ru.stepanovgzh.wct.receivingms.cqrs.event.*;
 import ru.stepanovgzh.wct.receivingms.cqrs.query.AllReceivingOrdersQuery;
 import ru.stepanovgzh.wct.receivingms.data.input.AddDetailToReceivingOrderInput;
 import ru.stepanovgzh.wct.receivingms.data.input.CreateReceivingOrderInput;
@@ -36,6 +34,7 @@ public class ReceivingOrderController
 {
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
+    private final EventStore eventStore;
 
     @PostMapping("/create")
     public CompletableFuture<UUID> createReceivingOrder(
@@ -97,5 +96,16 @@ public class ReceivingOrderController
     {
         return queryGateway.query(new AllReceivingOrdersQuery(),
             ResponseTypes.multipleInstancesOf(ReceivingOrderView.class));
+    }
+
+    @GetMapping("/{aggregateId}/events")
+    public List<EventDTO> listEventsForAggregate(@PathVariable String aggregateId)
+    {
+        return eventStore.readEvents(aggregateId).asStream()
+            .map(event -> new EventDTO(
+                event.getPayloadType().getSimpleName(),
+                event.getPayload(),
+                event.getTimestamp().toString()))
+            .collect(Collectors.toList());
     }
 }

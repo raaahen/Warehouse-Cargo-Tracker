@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggregate Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+<h1>Aggregate Events</h1>
+<div>
+    <label for="aggregateId">Aggregate ID:</label>
+    <input type="text" id="aggregateId" placeholder="Enter aggregate ID">
+    <button onclick="loadEvents()">Load Events</button>
+</div>
+<table id="eventsTable">
+    <thead>
+    <tr>
+        <th>Event Name</th>
+        <th>Event Data</th>
+        <th>Timestamp</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Events will be dynamically added here -->
+    </tbody>
+</table>
+<script>
+    async function loadEvents() {
+        const aggregateId = document.getElementById('aggregateId').value;
+        const response = await fetch(`http://localhost:8282/cargostoring/${aggregateId}/events`);
+        const events = await response.json();
+
+        const tableBody = document.getElementById('eventsTable').querySelector('tbody');
+        tableBody.innerHTML = '';
+
+        events.forEach(event => {
+            const row = document.createElement('tr');
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = event.eventType;
+            row.appendChild(nameCell);
+
+            const dataCell = document.createElement('td');
+            dataCell.textContent = JSON.stringify(event.payload);
+            row.appendChild(dataCell);
+
+            const timestampCell = document.createElement('td');
+            timestampCell.textContent = event.timestamp;
+            row.appendChild(timestampCell);
+
+            tableBody.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>

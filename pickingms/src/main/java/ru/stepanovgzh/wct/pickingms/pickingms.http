@@ -78,3 +78,8 @@ Content-Type: application/json
 
 ###get picking orders
 GET http://localhost:8383/cargopicking
+
+###
+
+GET http://localhost:8383/cargopicking/912d8de3-25e9-4915-9661-ec83615d73e3/events
+Content-Type: application/json

@@ -3,16 +3,13 @@ package ru.stepanovgzh.wct.pickingms.controller;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.*;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.eventsourcing.eventstore.*;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import ru.stepanovgzh.wct.pickingms.cqrs.command.AddDetailToPickingOrderCommand;
@@ -20,6 +17,7 @@ import ru.stepanovgzh.wct.pickingms.cqrs.command.CreatePickingOrderCommand;
 import ru.stepanovgzh.wct.pickingms.cqrs.command.DeletePickingOrderCommand;
 import ru.stepanovgzh.wct.pickingms.cqrs.command.PickCargoCommand;
 import ru.stepanovgzh.wct.pickingms.cqrs.command.RemoveDetailFromPickingOrderCommand;
+import ru.stepanovgzh.wct.pickingms.cqrs.event.*;
 import ru.stepanovgzh.wct.pickingms.cqrs.query.AllPickingOrdersQuery;
 import ru.stepanovgzh.wct.pickingms.data.input.AddDetailToPickingOrderInput;
 import ru.stepanovgzh.wct.pickingms.data.input.CreatePickingOrderInput;
@@ -35,6 +33,7 @@ public class PickingOrderController
 {
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
+    private final EventStore eventStore;
 
     @PostMapping("/create")
     public CompletableFuture<UUID> createCargo(
@@ -96,5 +95,16 @@ public class PickingOrderController
     {
         return queryGateway.query(new AllPickingOrdersQuery(),
             ResponseTypes.multipleInstancesOf(PickingOrderView.class));
+    }
+
+    @GetMapping("/{aggregateId}/events")
+    public List<EventDTO> listEventsForAggregate(@PathVariable String aggregateId)
+    {
+        return eventStore.readEvents(aggregateId).asStream()
+            .map(event -> new EventDTO(
+                event.getPayloadType().getSimpleName(),
+                event.getPayload(),
+                event.getTimestamp().toString()))
+            .collect(Collectors.toList());
     }
 }

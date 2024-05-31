@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggregate Events</title>
+    <title>Cargo Aggregate Events</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #1e1e1e;
+            color: #fff;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            color: #fff;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -22,18 +25,33 @@
             text-align: left;
         }
         th {
-            background-color: #f4f4f4;
+            background-color: #444;
         }
         pre {
             white-space: pre-wrap; /* Allows wrapping */
             word-wrap: break-word; /* Prevents long words from breaking layout */
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            margin: 0;
+        }
+        input[type="text"], button {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #777;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
-<h1>Aggregate Events</h1>
+<h1>Cargo Aggregate Events</h1>
 <div>
-    <label for="aggregateId">Aggregate ID:</label>
+    <label for="aggregateId">Cargo Aggregate ID:</label>
     <input type="text" id="aggregateId" placeholder="Enter aggregate ID">
     <button onclick="loadEvents()">Load Events</button>
 </div>
@@ -50,12 +68,31 @@
     </tbody>
 </table>
 <script>
-    function formatJson(json) {
-        // Stringify JSON with 2 spaces for indentation and then convert it to HTML-safe format
-        return JSON.stringify(json, null, 2)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+    function formatCustomJson(json) {
+        let formatted = '';
+        const recurse = (obj, indent) => {
+            for (let key in obj) {
+                if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                    formatted += `${'  '.repeat(indent)}${key}:\n`;
+                    recurse(obj[key], indent + 1);
+                    formatted += '\n';
+                } else {
+                    formatted += `${'  '.repeat(indent)}${key}: "${obj[key]}"\n`;
+                }
+            }
+        };
+        recurse(json, 1);
+        return formatted.trim();
+    }
+
+    function formatEventName(eventName) {
+        // Изменяем "CamelCase" на "Camel Case"
+        return eventName.replace(/([a-z])([A-Z])/g, '$1 $2');
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString(); // Преобразуем в удобочитаемый формат
     }
 
     async function loadEvents() {
@@ -79,17 +116,17 @@
                 const row = document.createElement('tr');
 
                 const nameCell = document.createElement('td');
-                nameCell.textContent = event.eventType;
+                nameCell.textContent = formatEventName(event.eventType); // Форматируем имя события
                 row.appendChild(nameCell);
 
                 const dataCell = document.createElement('td');
                 const pre = document.createElement('pre');
-                pre.innerHTML = formatJson(event.payload); // Format JSON data
+                pre.innerHTML = formatCustomJson(event.payload); // Форматируем данные события
                 dataCell.appendChild(pre);
                 row.appendChild(dataCell);
 
                 const timestampCell = document.createElement('td');
-                timestampCell.textContent = event.timestamp;
+                timestampCell.textContent = formatDate(event.timestamp); // Форматируем временную метку
                 row.appendChild(timestampCell);
 
                 tableBody.appendChild(row);

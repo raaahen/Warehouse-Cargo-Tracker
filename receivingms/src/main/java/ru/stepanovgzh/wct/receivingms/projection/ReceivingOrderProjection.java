@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.CargoReceivedEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.DetailAddedToReceivingOrderEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.DetailRemovedFromReceivingOrderEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.ReceivingOrderCreatedEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.ReceivingOrderDeletedEvent;
+import ru.stepanovgzh.wct.receivingms.cqrs.event.*;
 import ru.stepanovgzh.wct.receivingms.cqrs.query.AllReceivingOrdersQuery;
 import ru.stepanovgzh.wct.receivingms.data.entity.ReceivingOrderDetail;
 import ru.stepanovgzh.wct.receivingms.data.mapper.ReceivingOrderMapper;
@@ -80,6 +76,17 @@ public class ReceivingOrderProjection
                 "Receiving order detail not found, id = " + cargoReceivedEvent.getDetailId()));
         receivingOrderDetail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
         receivingOrderDetail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
+        receivingOrderRepository.save(receivingOrder);
+    }
+
+    @EventHandler
+    public void on(ReceivingOrderStatusChangedEvent receivingOrderStatusChangedEvent)
+    {
+        ReceivingOrder receivingOrder =
+            receivingOrderRepository.findById(receivingOrderStatusChangedEvent.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
+                    + receivingOrderStatusChangedEvent.getId()));
+        receivingOrder.setStatus(receivingOrderStatusChangedEvent.getStatus());
         receivingOrderRepository.save(receivingOrder);
     }
 

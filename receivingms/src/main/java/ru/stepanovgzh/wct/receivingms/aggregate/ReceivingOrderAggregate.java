@@ -12,16 +12,8 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import lombok.NoArgsConstructor;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.AddDetailToReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.CreateReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.DeleteReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.ReceiveCargoCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.RemoveDetailFromReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.CargoReceivedEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.DetailAddedToReceivingOrderEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.DetailRemovedFromReceivingOrderEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.ReceivingOrderCreatedEvent;
-import ru.stepanovgzh.wct.receivingms.cqrs.event.ReceivingOrderDeletedEvent;
+import ru.stepanovgzh.wct.receivingms.cqrs.command.*;
+import ru.stepanovgzh.wct.receivingms.cqrs.event.*;
 import ru.stepanovgzh.wct.receivingms.data.entity.ReceivingOrderDetail;
 import ru.stepanovgzh.wct.receivingms.data.entity.Supplier;
 import ru.stepanovgzh.wct.receivingms.data.entity.Transporter;
@@ -122,6 +114,20 @@ public class ReceivingOrderAggregate
                     detail.setReceivedCargoId(cargoReceivedEvent.getReceivedCargoId());
                     detail.setSkuReceivingStatus(cargoReceivedEvent.getSkuReceivingStatus());
                 });
+    }
+
+    @CommandHandler
+    public void handle(ChangeStatusOfReceivingOrderCommand changeStatusOfReceivingOrderCommand)
+    {
+        apply(new ReceivingOrderStatusChangedEvent(
+            changeStatusOfReceivingOrderCommand.getId(),
+            changeStatusOfReceivingOrderCommand.getStatus()));
+    }
+
+    @EventSourcingHandler
+    public void on(ReceivingOrderStatusChangedEvent receivingOrderStatusChangedEvent)
+    {
+        this.status = receivingOrderStatusChangedEvent.getStatus();
     }
 
     @CommandHandler

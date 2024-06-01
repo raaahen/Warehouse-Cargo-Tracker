@@ -13,18 +13,10 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.AddDetailToReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.CreateReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.DeleteReceivingOrderCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.ReceiveCargoCommand;
-import ru.stepanovgzh.wct.receivingms.cqrs.command.RemoveDetailFromReceivingOrderCommand;
+import ru.stepanovgzh.wct.receivingms.cqrs.command.*;
 import ru.stepanovgzh.wct.receivingms.cqrs.event.*;
 import ru.stepanovgzh.wct.receivingms.cqrs.query.AllReceivingOrdersQuery;
-import ru.stepanovgzh.wct.receivingms.data.input.AddDetailToReceivingOrderInput;
-import ru.stepanovgzh.wct.receivingms.data.input.CreateReceivingOrderInput;
-import ru.stepanovgzh.wct.receivingms.data.input.DeleteReceivingOrderInput;
-import ru.stepanovgzh.wct.receivingms.data.input.ReceiveCargoInput;
-import ru.stepanovgzh.wct.receivingms.data.input.RemoveDetailFromReceivingOrderInput;
+import ru.stepanovgzh.wct.receivingms.data.input.*;
 import ru.stepanovgzh.wct.receivingms.data.view.ReceivingOrderView;
 
 @RestController
@@ -71,6 +63,15 @@ public class ReceivingOrderController
         return commandGateway.send(new RemoveDetailFromReceivingOrderCommand(
             removeDetailFromReceivingOrderInput.getReceivingOrderId(),
             removeDetailFromReceivingOrderInput.getDetailId()));
+    }
+
+    @PostMapping("/change_status")
+    public CompletableFuture<UUID> changeStatusOfPickingOrder(
+        @Valid @RequestBody ChangeStatusOfReceivingOrderInput changeStatusOfPickingOrderInput)
+    {
+        return commandGateway.send(new ChangeStatusOfReceivingOrderCommand(
+            changeStatusOfPickingOrderInput.getId(),
+            changeStatusOfPickingOrderInput.getStatus()));
     }
 
     @PostMapping("/receive_cargo")

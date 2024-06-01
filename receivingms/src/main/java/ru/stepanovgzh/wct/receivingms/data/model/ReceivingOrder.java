@@ -35,7 +35,7 @@ public class ReceivingOrder
     @Temporal(TemporalType.TIMESTAMP)
     Date receivingDate;
 
-    ReceivingStatus receivingStatus;
+    ReceivingStatus status;
 
     @OneToMany(mappedBy = "receivingOrderId",
         fetch = FetchType.EAGER,

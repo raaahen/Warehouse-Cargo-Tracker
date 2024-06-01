@@ -17,6 +17,6 @@ public class ReceivingOrderView
     Supplier supplier;
     Transporter transporter;
     Date receivingDate;
-    ReceivingStatus receivingStatus;
+    ReceivingStatus status;
     List<ReceivingOrderDetail> details;
 }

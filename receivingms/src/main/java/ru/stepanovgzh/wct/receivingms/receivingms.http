@@ -2,7 +2,7 @@
 POST http://localhost:8181/cargoreceiving/suppliers
 Content-Type: text/plain
 
-Supplier 1
+PrimeSupply
 
 ### get suppliers
 GET http://localhost:8181/cargoreceiving/suppliers
@@ -14,7 +14,7 @@ DELETE http://localhost:8181/cargoreceiving/suppliers/1bfd1897-21f5-4e81-9e38-be
 POST http://localhost:8181/cargoreceiving/transporters
 Content-Type: text/plain
 
-Transporter 2
+SwiftTransport
 
 ### get transporters
 GET http://localhost:8181/cargoreceiving/transporters
@@ -27,11 +27,11 @@ POST http://localhost:8181/cargoreceiving/create
 Content-Type: application/json
 
 {
-  "supplierId": "097275e9-1698-4723-b753-1b0c5cd3a2ad",
-  "supplierName": "Supplier 1",
-  "transporterId": "d4f1bd50-bd02-4308-9829-9d4ebc5251f3",
-  "transporterName": "Transporter 2",
-  "date": "2024-07-01T10:30:00"
+  "supplierId": "3da6763d-dbda-4614-bfa1-adb0d0ddb2b6",
+  "supplierName": "PrimeSupply",
+  "transporterId": "82355772-bc71-4d7f-864f-95266a4dbf63",
+  "transporterName": "SwiftTransport",
+  "date": "2024-06-08T02:30:00"
 }
 
 ###add detail to receiving order
@@ -39,13 +39,13 @@ POST http://localhost:8181/cargoreceiving/add_detail
 Content-Type: application/json
 
 {
-  "receivingOrderId": "4af32797-9dc4-4717-b39b-9b5545c7837c",
-  "skuBarcode": "12345678",
-  "skuName": "Product Name 3",
-  "skuDecription": "Product 3 Description",
-  "qty": 10,
-  "packType": "PALLET",
-  "packDescription": "Pack Description for Pallet 2"
+  "receivingOrderId": "fdfd5087-07f5-4a4e-92df-2b13c08836fa",
+  "skuBarcode": "8718692615091",
+  "skuName": "Smart Fitness Tracker",
+  "skuDecription": "Smart fitness tracker designed to track activity, heart rate, and sleep for maintaining a healthy lifestyle.",
+  "qty": 295,
+  "packType": "CARTON",
+  "packDescription": "Carton-x1-Unit-x10"
 }
 
 ###remove detail from receiving order
@@ -62,10 +62,19 @@ POST http://localhost:8181/cargoreceiving/receive_cargo
 Content-Type: application/json
 
 {
-  "receivingOrderId": "4af32797-9dc4-4717-b39b-9b5545c7837c",
-  "detailId": "80463c4f-ae8f-43dc-a3fb-1cb228f8d2e9",
-  "cargoId": "0b138ff3-e1ca-4b22-b69e-8e974c2aa6e6",
+  "receivingOrderId": "fdfd5087-07f5-4a4e-92df-2b13c08836fa",
+  "detailId": "d0ae1177-06ce-421a-af8f-a1d2694ca6a3",
+  "cargoId": "31518631-e814-4f92-b179-d97b0f4eb717",
   "skuReceivingStatus": "RECEIVED_PARTIALLY"
+}
+
+###change status
+POST http://localhost:8181/cargoreceiving/change_status
+Content-Type: application/json
+
+{
+  "id": "fdfd5087-07f5-4a4e-92df-2b13c08836fa",
+  "status": "PARTIALLY_DONE"
 }
 
 ###delete receiving order

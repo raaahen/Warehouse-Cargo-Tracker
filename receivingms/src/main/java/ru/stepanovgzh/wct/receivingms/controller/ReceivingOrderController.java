@@ -66,12 +66,12 @@ public class ReceivingOrderController
     }
 
     @PostMapping("/change_status")
-    public CompletableFuture<UUID> changeStatusOfPickingOrder(
-        @Valid @RequestBody ChangeStatusOfReceivingOrderInput changeStatusOfPickingOrderInput)
+    public CompletableFuture<UUID> changeStatusOfReceivingOrder(
+        @Valid @RequestBody ChangeStatusOfReceivingOrderInput changeStatusOfReceivingOrderInput)
     {
         return commandGateway.send(new ChangeStatusOfReceivingOrderCommand(
-            changeStatusOfPickingOrderInput.getId(),
-            changeStatusOfPickingOrderInput.getStatus()));
+            changeStatusOfReceivingOrderInput.getId(),
+            changeStatusOfReceivingOrderInput.getStatus()));
     }
 
     @PostMapping("/receive_cargo")

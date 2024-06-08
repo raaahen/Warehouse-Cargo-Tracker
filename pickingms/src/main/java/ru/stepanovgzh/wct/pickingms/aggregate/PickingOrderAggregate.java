@@ -135,6 +135,25 @@ public class PickingOrderAggregate
     }
 
     @CommandHandler
+    public void handle(ChangeStatusOfPODetailCommand changeStatusOfPODetailCommand)
+    {
+        apply(new PODetailStatusChangedEvent(
+            changeStatusOfPODetailCommand.getId(),
+            changeStatusOfPODetailCommand.getDetailId(),
+            changeStatusOfPODetailCommand.getStatus()));
+    }
+
+    @EventSourcingHandler
+    public void on(PODetailStatusChangedEvent poDetailStatusChangedEvent)
+    {
+        this.details.stream()
+            .filter(detail -> detail.getId().equals(poDetailStatusChangedEvent.getDetailId()))
+            .findFirst()
+            .ifPresent(detail ->
+                detail.setSkuPickingStatus(poDetailStatusChangedEvent.getStatus()));
+    }
+
+    @CommandHandler
     public void handle(DeletePickingOrderCommand command)
     {
         apply(new PickingOrderDeletedEvent(command.getId()));

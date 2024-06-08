@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wct.receivingms.handler;
+package ru.stepanovgzh.wct.pickingms.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

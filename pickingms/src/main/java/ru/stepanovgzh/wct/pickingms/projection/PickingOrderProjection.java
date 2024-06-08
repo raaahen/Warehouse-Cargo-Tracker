@@ -1,4 +1,4 @@
-package ru.stepanovgzh.wct.pickingms.data.projection;
+package ru.stepanovgzh.wct.pickingms.projection;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +87,22 @@ public class PickingOrderProjection
                 .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
                     + pickingOrderStatusChangedEvent.getId()));
         pickingOrder.setStatus(pickingOrderStatusChangedEvent.getStatus());
+        pickingOrderRepository.save(pickingOrder);
+    }
+
+    @EventHandler
+    public void on(PODetailStatusChangedEvent poDetailStatusChangedEvent)
+    {
+        PickingOrder pickingOrder =
+            pickingOrderRepository.findById(poDetailStatusChangedEvent.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Picking order not found, id = "
+                    + poDetailStatusChangedEvent.getId()));
+        PickingOrderDetail pickingOrderDetail = pickingOrder.getDetails().stream()
+            .filter(detail -> detail.getId().equals(poDetailStatusChangedEvent.getDetailId()))
+            .findFirst()
+            .orElseThrow(() -> new EntityNotFoundException(
+                "Picking order detail not found, id = " + poDetailStatusChangedEvent.getDetailId()));
+        pickingOrderDetail.setSkuPickingStatus(poDetailStatusChangedEvent.getStatus());
         pickingOrderRepository.save(pickingOrder);
     }
 

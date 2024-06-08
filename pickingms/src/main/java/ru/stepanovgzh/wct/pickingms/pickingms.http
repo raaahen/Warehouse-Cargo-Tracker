@@ -2,7 +2,7 @@
 POST http://localhost:8383/cargopicking/clients
 Content-Type: text/plain
 
-Client 2
+EcoTech Solutions
 
 ###get clients
 GET http://localhost:8383/cargopicking/clients
@@ -14,7 +14,7 @@ DELETE http://localhost:8383/cargopicking/clients/28806096-fd69-4ec9-bfc5-ca6b44
 POST http://localhost:8383/cargopicking/transporters
 Content-Type: text/plain
 
-Transporter 2
+RapidMove Logistics
 
 ###get transporters
 GET http://localhost:8383/cargopicking/transporters
@@ -27,11 +27,11 @@ POST http://localhost:8383/cargopicking/create
 Content-Type: application/json
 
 {
-  "clientId": "94f2195e-6fc8-4039-a366-4465fae7f738",
-  "clientName": "Client 1",
-  "transporterId": "52a48f32-c413-4a6c-8892-efc8cc5c7ab7",
-  "transporterName": "Transporter 1",
-  "preparationDeadline": "2024-06-10T10:30:00"
+  "clientId": "efe111a9-e47e-430f-82c4-c36e30efb456",
+  "clientName": "EcoTech Solutions",
+  "transporterId": "203bf51a-21bb-4955-a381-d674f363de56",
+  "transporterName": "RapidMove Logistics",
+  "preparationDeadline": "2024-06-08T08:00:00"
 }
 
 ###add detail to picking order
@@ -39,13 +39,13 @@ POST http://localhost:8383/cargopicking/add_detail
 Content-Type: application/json
 
 {
-  "pickingOrderId": "cf5e86a6-62c7-4904-99f0-5cc48ec8570c",
-  "skuBarcode": "1234554235432",
-  "skuName": "Product Name 3",
-  "skuDecription": "Product 3 Description",
-  "qty": 20,
+  "pickingOrderId": "4f83b727-391a-4ab5-a65a-3977b4d82f35",
+  "skuBarcode": "9876543210987",
+  "skuName": "Tech Glow",
+  "skuDecription": "State-of-the-art smart LED light bulb with customizable color temperature and brightness settings.",
+  "qty": 25,
   "packType": "CARTON",
-  "packDescription": "Pack Description"
+  "packDescription": "Carton-x1-Unit-x5"
 }
 
 ###remove detail from picking order
@@ -62,10 +62,29 @@ POST http://localhost:8383/cargopicking/pick_cargo
 Content-Type: application/json
 
 {
-  "pickingOrderId": "fe07802f-5d5a-4e52-b221-33784b839d34",
-  "detailId": "62dc3584-9126-43b0-8b82-24a831bbcfb8",
-  "cargoId": "a26ac53d-11ec-4d0e-aa0a-1c5cb4203f7d",
-  "skuPickingStatus": "DONE"
+  "pickingOrderId": "4f83b727-391a-4ab5-a65a-3977b4d82f35",
+  "detailId": "cc38869d-9977-4458-9a58-e0746395dfbc",
+  "cargoId": "31518631-e814-4f92-b179-d97b0f4eb717",
+  "skuPickingStatus": "PARTIALLY_DONE"
+}
+
+###change status of PO
+POST http://localhost:8383/cargopicking/change_status
+Content-Type: application/json
+
+{
+  "id": "4f83b727-391a-4ab5-a65a-3977b4d82f35",
+  "status": "PARTIALLY_DONE"
+}
+
+###change status of PO
+POST http://localhost:8383/cargopicking/change_detail_status
+Content-Type: application/json
+
+{
+  "id": "4f83b727-391a-4ab5-a65a-3977b4d82f35",
+  "detailId": "dd31a1cd-a08a-4a6b-9d57-5f7457ccd235",
+  "status": "CANCELED"
 }
 
 ###delete picking order

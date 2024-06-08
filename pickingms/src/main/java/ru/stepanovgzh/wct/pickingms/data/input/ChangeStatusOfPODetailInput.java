@@ -1,17 +1,20 @@
-package ru.stepanovgzh.wct.pickingms.cqrs.command;
+package ru.stepanovgzh.wct.pickingms.data.input;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Value;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
-import ru.stepanovgzh.wct.pickingms.data.value.PickingStatus;
 import ru.stepanovgzh.wct.pickingms.data.value.SkuPickingStatus;
 
 import java.util.UUID;
 
 @Value
-public class ChangeStatusOfPODetailCommand
+public class ChangeStatusOfPODetailInput
 {
-    @TargetAggregateIdentifier
+    @NotNull
     UUID id;
+
+    @NotNull
     UUID detailId;
+
+    @NotNull
     SkuPickingStatus status;
 }

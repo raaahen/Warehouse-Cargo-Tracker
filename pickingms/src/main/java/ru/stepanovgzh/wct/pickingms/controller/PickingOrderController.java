@@ -74,6 +74,16 @@ public class PickingOrderController
             changeStatusOfPickingOrderInput.getStatus()));
     }
 
+    @PostMapping("/change_detail_status")
+    public CompletableFuture<UUID> changeStatusOfPODetail(
+        @Valid @RequestBody ChangeStatusOfPODetailInput changeStatusOfPODetailInput)
+    {
+        return commandGateway.send(new ChangeStatusOfPODetailCommand(
+            changeStatusOfPODetailInput.getId(),
+            changeStatusOfPODetailInput.getDetailId(),
+            changeStatusOfPODetailInput.getStatus()));
+    }
+
     @PostMapping("/pick_cargo")
     public CompletableFuture<UUID> pickCargo(@Valid @RequestBody PickCargoInput pickCargoInput)
     {

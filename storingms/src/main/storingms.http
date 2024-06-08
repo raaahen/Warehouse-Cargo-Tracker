@@ -2,12 +2,12 @@ POST http://localhost:8282/cargostoring/create
 Content-Type: application/json
 
 {
-    "skuBarcode": "12345",
-    "skuName": "sku",
-    "skuDescription": "test sku",
+    "skuBarcode": "9780141441146",
+    "skuName": "Portable Power Bank",
+    "skuDescription": "Compact and durable portable power bank designed to provide reliable on-the-go charging for your electronic devices.",
     "packType": "CARTON",
-    "packDescription": "test carton",
-    "qtyOfSku": 12 
+    "packDescription": "Carton-x1-Unit-x10",
+    "qtyOfSku": 100
 }
 
 ###
@@ -16,9 +16,9 @@ POST http://localhost:8282/cargostoring/move
 Content-Type: application/json
 
 {
-    "id": "912d8de3-25e9-4915-9661-ec83615d73e3",
-    "zone": "A1",
-    "cell": "C5"
+    "id": "31518631-e814-4f92-b179-d97b0f4eb717",
+    "zone": "SHIPPING-ZONE-1",
+    "cell": "C2"
 }
 
 ###
@@ -27,8 +27,8 @@ POST http://localhost:8282/cargostoring/update
 Content-Type: application/json
 
 {
-    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
-    "qty": 90
+    "id": "4d13079f-8f8d-44e3-be50-75351727f258",
+    "qty": 100
 }
 
 ###
@@ -37,7 +37,7 @@ POST http://localhost:8282/cargostoring/changestatus
 Content-Type: application/json
 
 {
-    "id": "4695dfc1-19f1-48d8-93ed-ca73ec0d40d1",
+    "id": "31518631-e814-4f92-b179-d97b0f4eb717",
     "status": "BLOCKED"
 }
 
